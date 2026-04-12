@@ -13,7 +13,7 @@ export async function parseExpense(input: string | Buffer, isImage = false) {
   Default date to today if not found. Categories should be one of: Food, Transport, Shopping, Bills, Others.`;
 
   const maxRetries = 3;
-  let lastError: any;
+  let lastError: unknown;
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
@@ -39,13 +39,13 @@ export async function parseExpense(input: string | Buffer, isImage = false) {
 
       const rawData = JSON.parse(jsonMatch[0]);
       return ExpenseSchema.parse(rawData);
-    } catch (error: any) {
+    } catch (error: unknown) {
       lastError = error;
       // If it's a ZodError, don't retry (it's a content issue, not a service issue)
-      if (error.name === "ZodError") throw error;
+      if (error instanceof Error && error.name === "ZodError") throw error;
 
-      const isTransient =
-        error.message?.includes("503") || error.message?.includes("429");
+      const message = error instanceof Error ? error.message : String(error);
+      const isTransient = message.includes("503") || message.includes("429");
       if (isTransient && attempt < maxRetries - 1) {
         const delay = 2 ** attempt * 1000;
         console.log(

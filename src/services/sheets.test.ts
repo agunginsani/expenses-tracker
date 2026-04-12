@@ -45,7 +45,7 @@ describe("Sheets Service", () => {
       amount: 10,
       currency: "$",
       description: "coffee",
-      category: "Food" as any,
+      category: "Food",
       date: "2026-04-12",
     };
 
@@ -69,7 +69,7 @@ describe("Sheets Service", () => {
       amount: 10,
       currency: "$",
       description: "coffee",
-      category: "Food" as any,
+      category: "Food",
       date: "2026-04-12",
     };
 
@@ -92,7 +92,7 @@ describe("Sheets Service", () => {
       amount: -10, // Invalid
       currency: "$",
       description: "coffee",
-      category: "Food" as any,
+      category: "Food",
       date: "2026-04-12",
     };
     await expect(saveToSheet(invalidData)).rejects.toThrow();
