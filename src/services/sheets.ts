@@ -31,8 +31,9 @@ export async function saveToSheet(data: ExpenseData) {
 
     try {
       await sheet.addRow(rowData);
-    } catch (e: any) {
-      if (e.message?.includes("No values in the header row")) {
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      if (message.includes("No values in the header row")) {
         console.log("Empty sheet detected. Initializing headers...");
         await sheet.setHeaderRow([
           "Date",
