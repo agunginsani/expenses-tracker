@@ -1,0 +1,156 @@
+[
+  {
+    "sessionId": "52c73acd-bbab-4b22-a917-47b93035804f",
+    "messageId": 0,
+    "type": "user",
+    "message": "/extensions",
+    "timestamp": "2026-04-12T01:16:13.434Z"
+  },
+  {
+    "sessionId": "52c73acd-bbab-4b22-a917-47b93035804f",
+    "messageId": 1,
+    "type": "user",
+    "message": "/extensions explore",
+    "timestamp": "2026-04-12T01:16:26.747Z"
+  },
+  {
+    "sessionId": "52c73acd-bbab-4b22-a917-47b93035804f",
+    "messageId": 2,
+    "type": "user",
+    "message": "gemini extensions install https://github.com/obra/superpowers",
+    "timestamp": "2026-04-12T01:16:54.678Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 0,
+    "type": "user",
+    "message": "/superpowers:brainstorming I want to create expenses tracker. I can submit the data using WA or Telegram. Data can be image or text. We use Apple Numbers for the DB.",
+    "timestamp": "2026-04-12T01:22:33.000Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 1,
+    "type": "user",
+    "message": "Yes.",
+    "timestamp": "2026-04-12T01:23:19.479Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 2,
+    "type": "user",
+    "message": "Telegram.",
+    "timestamp": "2026-04-12T01:23:49.331Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 3,
+    "type": "user",
+    "message": "Natural Language.",
+    "timestamp": "2026-04-12T01:24:51.267Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 4,
+    "type": "user",
+    "message": "The site cannot be reached.",
+    "timestamp": "2026-04-12T01:28:03.393Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 5,
+    "type": "user",
+    "message": "For option 2, why do we need local sync? I use iCloud that automatically syncs the Apple Numbers.",
+    "timestamp": "2026-04-12T01:30:38.110Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 6,
+    "type": "user",
+    "message": "Would Google Spreadsheet be better option?",
+    "timestamp": "2026-04-12T01:45:18.785Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 7,
+    "type": "user",
+    "message": "OK switch to Google Sheets. Is there any additional price?",
+    "timestamp": "2026-04-12T02:14:28.144Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 8,
+    "type": "user",
+    "message": "Smart Extraction.",
+    "timestamp": "2026-04-12T02:15:39.599Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 9,
+    "type": "user",
+    "message": "Why do we need GPT? Can Gemini handle that?",
+    "timestamp": "2026-04-12T02:16:26.944Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 10,
+    "type": "user",
+    "message": "What about the technical stacks are we going to use?",
+    "timestamp": "2026-04-12T02:22:16.554Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 11,
+    "type": "user",
+    "message": "I prefer Node.js + TypeScript. Init the repository and create document spec.",
+    "timestamp": "2026-04-12T02:23:35.213Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 12,
+    "type": "user",
+    "message": "Create new /Documents/expenses-tracker and put the documents there.",
+    "timestamp": "2026-04-12T02:25:19.846Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 13,
+    "type": "user",
+    "message": "Can the superpowers plugin be installed on project scope only?",
+    "timestamp": "2026-04-12T02:26:49.711Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 14,
+    "type": "user",
+    "message": "Go ahead.",
+    "timestamp": "2026-04-12T02:27:57.114Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 15,
+    "type": "user",
+    "message": "Let's move all the work to /Documents/expenses-tracker first. Including the superpowers plugin.",
+    "timestamp": "2026-04-12T02:31:37.513Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 16,
+    "type": "user",
+    "message": "Have you uninstalled the global superpowers plugin?",
+    "timestamp": "2026-04-12T02:50:37.802Z"
+  },
+  {
+    "sessionId": "01b2c62e-cba4-4088-8755-b240504efb70",
+    "messageId": 17,
+    "type": "user",
+    "message": "Yes remove the global one and keep the project scope.",
+    "timestamp": "2026-04-12T02:51:23.622Z"
+  },
+  {
+    "sessionId": "e908caf2-53dd-497b-a06a-3d41248df5bf",
+    "messageId": 0,
+    "type": "user",
+    "message": "Move conversation history to /Documents/expenses-tracker.",
+    "timestamp": "2026-04-12T03:18:00.362Z"
+  }
+]

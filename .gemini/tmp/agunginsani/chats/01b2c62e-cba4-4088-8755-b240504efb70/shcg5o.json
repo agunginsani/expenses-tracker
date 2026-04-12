@@ -1,0 +1,268 @@
+{
+  "sessionId": "shcg5o",
+  "projectHash": "333338cf12b42818c4fd7ea48dfaf7e341574bf4bb29c58e58272ee57e76b728",
+  "startTime": "2026-04-12T02:26:55.852Z",
+  "lastUpdated": "2026-04-12T02:27:20.822Z",
+  "messages": [
+    {
+      "id": "6e55cf74-e1f0-4949-afc2-8cfbce67ded9",
+      "timestamp": "2026-04-12T02:26:55.852Z",
+      "type": "user",
+      "content": [
+        {
+          "text": "Your task is to answer the following question about Gemini CLI:\n<question>\nCan I install or configure agent skills (like superpowers) on a project-specific scope only, instead of globally?\n</question>"
+        }
+      ]
+    },
+    {
+      "id": "bb6ca941-7692-499b-b022-0a30589ee74d",
+      "timestamp": "2026-04-12T02:26:58.060Z",
+      "type": "gemini",
+      "content": "",
+      "thoughts": [
+        {
+          "subject": "Investigating Gemini CLI Skills",
+          "description": "I've initiated a search of the Gemini CLI documentation. My primary focus is pinpointing any guidance on installing or configuring agent \"superpowers\" within a project's boundaries, rather than globally. I will next methodically review the available documents.",
+          "timestamp": "2026-04-12T02:26:57.999Z"
+        }
+      ],
+      "tokens": {
+        "input": 4421,
+        "output": 10,
+        "cached": 0,
+        "thoughts": 61,
+        "tool": 0,
+        "total": 4492
+      },
+      "model": "gemini-3-flash-preview",
+      "toolCalls": [
+        {
+          "id": "shcg5o#0-0",
+          "name": "get_internal_docs",
+          "args": {
+            "path": ""
+          },
+          "result": [
+            {
+              "functionResponse": {
+                "id": "shcg5o#0-0",
+                "name": "get_internal_docs",
+                "response": {
+                  "output": "Available Gemini CLI documentation files:\n\n- CONTRIBUTING.md\n- admin/enterprise-controls.md\n- changelogs/index.md\n- changelogs/latest.md\n- changelogs/preview.md\n- cli/acp-mode.md\n- cli/checkpointing.md\n- cli/cli-reference.md\n- cli/creating-skills.md\n- cli/custom-commands.md\n- cli/enterprise.md\n- cli/gemini-ignore.md\n- cli/gemini-md.md\n- cli/generation-settings.md\n- cli/git-worktrees.md\n- cli/headless.md\n- cli/model-routing.md\n- cli/model-steering.md\n- cli/model.md\n- cli/notifications.md\n- cli/plan-mode.md\n- cli/rewind.md\n- cli/sandbox.md\n- cli/session-management.md\n- cli/settings.md\n- cli/skills.md\n- cli/system-prompt.md\n- cli/telemetry.md\n- cli/themes.md\n- cli/token-caching.md\n- cli/trusted-folders.md\n- cli/tutorials/automation.md\n- cli/tutorials/file-management.md\n- cli/tutorials/mcp-setup.md\n- cli/tutorials/memory-management.md\n- cli/tutorials/plan-mode-steering.md\n- cli/tutorials/session-management.md\n- cli/tutorials/shell-commands.md\n- cli/tutorials/skills-getting-started.md\n- cli/tutorials/task-planning.md\n- cli/tutorials/web-tools.md\n- core/index.md\n- core/local-model-routing.md\n- core/remote-agents.md\n- core/subagents.md\n- examples/proxy-script.md\n- extensions/best-practices.md\n- extensions/index.md\n- extensions/reference.md\n- extensions/releasing.md\n- extensions/writing-extensions.md\n- get-started/authentication.md\n- get-started/gemini-3.md\n- get-started/index.md\n- get-started/installation.md\n- hooks/best-practices.md\n- hooks/index.md\n- hooks/reference.md\n- hooks/writing-hooks.md\n- ide-integration/ide-companion-spec.md\n- ide-integration/index.md\n- index.md\n- integration-tests.md\n- issue-and-pr-automation.md\n- local-development.md\n- npm.md\n- reference/commands.md\n- reference/configuration.md\n- reference/keyboard-shortcuts.md\n- reference/memport.md\n- reference/policy-engine.md\n- reference/tools.md\n- release-confidence.md\n- releases.md\n- resources/faq.md\n- resources/quota-and-pricing.md\n- resources/tos-privacy.md\n- resources/troubleshooting.md\n- resources/uninstall.md\n- tools/activate-skill.md\n- tools/ask-user.md\n- tools/file-system.md\n- tools/internal-docs.md\n- tools/mcp-server.md\n- tools/memory.md\n- tools/planning.md\n- tools/shell.md\n- tools/todos.md\n- tools/web-fetch.md\n- tools/web-search.md"
+                }
+              }
+            }
+          ],
+          "status": "success",
+          "timestamp": "2026-04-12T02:26:58.078Z",
+          "resultDisplay": "Found 90 documentation files.",
+          "description": "Listing all available internal documentation.",
+          "displayName": "GetInternalDocs",
+          "renderOutputAsMarkdown": true
+        }
+      ]
+    },
+    {
+      "id": "82c3ba83-d987-4623-a533-30f162339bbf",
+      "timestamp": "2026-04-12T02:27:01.638Z",
+      "type": "gemini",
+      "content": "",
+      "thoughts": [
+        {
+          "subject": "Reviewing Documentation Files",
+          "description": "I'm currently reviewing several documentation files to understand the project structure better. So far, the `skills.md` and `creating-skills.md` files look promising for initial skill development. Also, I've noted that `cli/gemini-md.md` might hold valuable project configuration insights. I'll continue to assess these files and others, such as the getting-started tutorial.",
+          "timestamp": "2026-04-12T02:27:00.659Z"
+        },
+        {
+          "subject": "Examining Skill Overviews",
+          "description": "I've begun reading the `cli/skills.md` file, which appears to provide a general skill overview. My primary focus is understanding skill scoping, and whether the documentation provides explicit examples or mentions of this feature. I'll need to explore other related files, such as `creating-skills.md` and the tutorial, to get a holistic view of the process.",
+          "timestamp": "2026-04-12T02:27:01.570Z"
+        }
+      ],
+      "tokens": {
+        "input": 5219,
+        "output": 15,
+        "cached": 0,
+        "thoughts": 120,
+        "tool": 0,
+        "total": 5354
+      },
+      "model": "gemini-3-flash-preview",
+      "toolCalls": [
+        {
+          "id": "shcg5o#1-0",
+          "name": "get_internal_docs",
+          "args": {
+            "path": "cli/skills.md"
+          },
+          "result": [
+            {
+              "functionResponse": {
+                "id": "shcg5o#1-0",
+                "name": "get_internal_docs",
+                "response": {
+                  "output": "# Agent Skills\n\nAgent Skills allow you to extend Gemini CLI with specialized expertise,\nprocedural workflows, and task-specific resources. Based on the\n[Agent Skills](https://agentskills.io) open standard, a \"skill\" is a\nself-contained directory that packages instructions and assets into a\ndiscoverable capability.\n\n## Overview\n\nUnlike general context files ([`GEMINI.md`](./gemini-md.md)), which provide\npersistent workspace-wide background, Skills represent **on-demand expertise**.\nThis allows Gemini to maintain a vast library of specialized capabilities—such\nas security auditing, cloud deployments, or codebase migrations—without\ncluttering the model's immediate context window.\n\nGemini autonomously decides when to employ a skill based on your request and the\nskill's description. When a relevant skill is identified, the model \"pulls in\"\nthe full instructions and resources required to complete the task using the\n`activate_skill` tool.\n\n## Key Benefits\n\n- **Shared Expertise:** Package complex workflows (like a specific team's PR\n  review process) into a folder that anyone can use.\n- **Repeatable Workflows:** Ensure complex multi-step tasks are performed\n  consistently by providing a procedural framework.\n- **Resource Bundling:** Include scripts, templates, or example data alongside\n  instructions so the agent has everything it needs.\n- **Progressive Disclosure:** Only skill metadata (name and description) is\n  loaded initially. Detailed instructions and resources are only disclosed when\n  the model explicitly activates the skill, saving context tokens.\n\n## Skill Discovery Tiers\n\nGemini CLI discovers skills from three primary locations:\n\n1.  **Workspace Skills**: Located in `.gemini/skills/` or the `.agents/skills/`\n    alias. Workspace skills are typically committed to version control and\n    shared with the team.\n2.  **User Skills**: Located in `~/.gemini/skills/` or the `~/.agents/skills/`\n    alias. These are personal skills available across all your workspaces.\n3.  **Extension Skills**: Skills bundled within installed\n    [extensions](../extensions/index.md).\n\n**Precedence:** If multiple skills share the same name, higher-precedence\nlocations override lower ones: **Workspace > User > Extension**.\n\nWithin the same tier (user or workspace), the `.agents/skills/` alias takes\nprecedence over the `.gemini/skills/` directory. This generic alias provides an\nintuitive path for managing agent-specific expertise that remains compatible\nacross different AI agent tools.\n\n## Managing Skills\n\n### In an Interactive Session\n\nUse the `/skills` slash command to view and manage available expertise:\n\n- `/skills list` (default): Shows all discovered skills and their status.\n- `/skills link <path>`: Links agent skills from a local directory via symlink.\n- `/skills disable <name>`: Prevents a specific skill from being used.\n- `/skills enable <name>`: Re-enables a disabled skill.\n- `/skills reload`: Refreshes the list of discovered skills from all tiers.\n\n<!-- prettier-ignore -->\n> [!NOTE]\n> `/skills disable` and `/skills enable` default to the `user` scope. Use\n> `--scope workspace` to manage workspace-specific settings.\n\n### From the Terminal\n\nThe `gemini skills` command provides management utilities:\n\n```bash\n# List all discovered skills\ngemini skills list\n\n# Link agent skills from a local directory via symlink\n# Discovers skills (SKILL.md or */SKILL.md) and creates symlinks in ~/.gemini/skills\n# (or ~/.agents/skills)\ngemini skills link /path/to/my-skills-repo\n\n# Link to the workspace scope (.gemini/skills or .agents/skills)\ngemini skills link /path/to/my-skills-repo --scope workspace\n\n# Install a skill from a Git repository, local directory, or zipped skill file (.skill)\n# Uses the user scope by default (~/.gemini/skills or ~/.agents/skills)\ngemini skills install https://github.com/user/repo.git\ngemini skills install /path/to/local/skill\ngemini skills install /path/to/local/my-expertise.skill\n\n# Install a specific skill from a monorepo or subdirectory using --path\ngemini skills install https://github.com/my-org/my-skills.git --path skills/frontend-design\n\n# Install to the workspace scope (.gemini/skills or .agents/skills)\ngemini skills install /path/to/skill --scope workspace\n\n# Uninstall a skill by name\ngemini skills uninstall my-expertise --scope workspace\n\n# Enable a skill (globally)\ngemini skills enable my-expertise\n\n# Disable a skill. Can use --scope to specify workspace or user (defaults to workspace)\ngemini skills disable my-expertise --scope workspace\n```\n\n## How it Works\n\n1.  **Discovery**: At the start of a session, Gemini CLI scans the discovery\n    tiers and injects the name and description of all enabled skills into the\n    system prompt.\n2.  **Activation**: When Gemini identifies a task matching a skill's\n    description, it calls the `activate_skill` tool.\n3.  **Consent**: You will see a confirmation prompt in the UI detailing the\n    skill's name, purpose, and the directory path it will gain access to.\n4.  **Injection**: Upon your approval:\n    - The `SKILL.md` body and folder structure is added to the conversation\n      history.\n    - The skill's directory is added to the agent's allowed file paths, granting\n      it permission to read any bundled assets.\n5.  **Execution**: The model proceeds with the specialized expertise active. It\n    is instructed to prioritize the skill's procedural guidance within reason.\n\n### Skill activation\n\nOnce a skill is activated (typically by Gemini identifying a task that matches\nthe skill's description and your approval), its specialized instructions and\nresources are loaded into the agent's context. A skill remains active and its\nguidance is prioritized for the duration of the session.\n\n## Creating your own skills\n\nTo create your own skills, see the [Create Agent Skills](./creating-skills.md)\nguide.\n"
+                }
+              }
+            }
+          ],
+          "status": "success",
+          "timestamp": "2026-04-12T02:27:01.655Z",
+          "resultDisplay": "Successfully read documentation: cli/skills.md",
+          "description": "Reading internal documentation: cli/skills.md",
+          "displayName": "GetInternalDocs",
+          "renderOutputAsMarkdown": true
+        }
+      ]
+    },
+    {
+      "id": "c7a6268e-a738-4c44-a6a5-f35826ba7b54",
+      "timestamp": "2026-04-12T02:27:06.241Z",
+      "type": "gemini",
+      "content": "",
+      "thoughts": [
+        {
+          "subject": "Examining Skill Locations",
+          "description": "I'm currently focused on the practicalities of skill organization, specifically where skills are housed. I've noted that workspace skills reside in designated directories, and that these are version controlled and team-shared. This is important for code maintainability.",
+          "timestamp": "2026-04-12T02:27:03.786Z"
+        },
+        {
+          "subject": "Considering Skill Precedence",
+          "description": "I'm now digging into the skill precedence hierarchy: workspace, user, and extension. The command line options for linking, installing, and uninstalling skills, with workspace scope, are particularly useful. I am also planning to check if the 'superpowers' mentioned earlier is an extension.",
+          "timestamp": "2026-04-12T02:27:05.339Z"
+        },
+        {
+          "subject": "Scoping Superpowers Skills",
+          "description": "I've located the \"superpowers\" extension context, confirming it's an installed extension. Now I'll investigate how extension skills interact with workspace and user scopes. My next step is to examine `extensions/index.md` or `extensions/reference.md` to clarify scoping behavior for these extension-bundled skills.",
+          "timestamp": "2026-04-12T02:27:06.162Z"
+        }
+      ],
+      "tokens": {
+        "input": 6605,
+        "output": 15,
+        "cached": 0,
+        "thoughts": 394,
+        "tool": 0,
+        "total": 7014
+      },
+      "model": "gemini-3-flash-preview",
+      "toolCalls": [
+        {
+          "id": "shcg5o#2-0",
+          "name": "get_internal_docs",
+          "args": {
+            "path": "extensions/index.md"
+          },
+          "result": [
+            {
+              "functionResponse": {
+                "id": "shcg5o#2-0",
+                "name": "get_internal_docs",
+                "response": {
+                  "output": "# Gemini CLI extensions\n\nGemini CLI extensions package prompts, MCP servers, custom commands, themes,\nhooks, sub-agents, and agent skills into a familiar and user-friendly format.\nWith extensions, you can expand the capabilities of Gemini CLI and share those\ncapabilities with others. They are designed to be easily installable and\nshareable.\n\nTo see what's possible, browse the\n[Gemini CLI extension gallery](https://geminicli.com/extensions/browse/).\n\n## Choose your path\n\nChoose the guide that best fits your needs.\n\n### I want to use extensions\n\nLearn how to discover, install, and manage extensions to enhance your Gemini CLI\nexperience.\n\n- **[Manage extensions](#manage-extensions):** List and verify your installed\n  extensions.\n- **[Install extensions](#installation):** Add new capabilities from GitHub or\n  local paths.\n\n### I want to build extensions\n\nLearn how to create, test, and share your own extensions with the community.\n\n- **[Build extensions](writing-extensions.md):** Create your first extension\n  from a template.\n- **[Best practices](best-practices.md):** Learn how to build secure and\n  reliable extensions.\n- **[Publish to the gallery](releasing.md):** Share your work with the world.\n\n## Manage extensions\n\nUse the interactive `/extensions` command to verify your installed extensions\nand their status:\n\n```bash\n/extensions list\n```\n\nYou can also manage extensions from your terminal using the `gemini extensions`\ncommand group:\n\n```bash\ngemini extensions list\n```\n\n## Installation\n\nInstall an extension by providing its GitHub repository URL. For example:\n\n```bash\ngemini extensions install https://github.com/gemini-cli-extensions/workspace\n```\n\nFor more advanced installation options, see the\n[Extension reference](reference.md#install-an-extension).\n"
+                }
+              }
+            }
+          ],
+          "status": "success",
+          "timestamp": "2026-04-12T02:27:06.258Z",
+          "resultDisplay": "Successfully read documentation: extensions/index.md",
+          "description": "Reading internal documentation: extensions/index.md",
+          "displayName": "GetInternalDocs",
+          "renderOutputAsMarkdown": true
+        }
+      ]
+    },
+    {
+      "id": "6d57a767-db98-4fbc-962f-ea469889209f",
+      "timestamp": "2026-04-12T02:27:08.300Z",
+      "type": "gemini",
+      "content": "",
+      "thoughts": [
+        {
+          "subject": "Checking documentation references",
+          "description": "I've decided to check the `extensions/reference.md` file as well, to make sure all relevant documentation is considered in my analysis. It seems like it could provide useful insights that I might otherwise miss.",
+          "timestamp": "2026-04-12T02:27:08.237Z"
+        }
+      ],
+      "tokens": {
+        "input": 7029,
+        "output": 15,
+        "cached": 3663,
+        "thoughts": 14,
+        "tool": 0,
+        "total": 7058
+      },
+      "model": "gemini-3-flash-preview",
+      "toolCalls": [
+        {
+          "id": "shcg5o#3-0",
+          "name": "get_internal_docs",
+          "args": {
+            "path": "extensions/reference.md"
+          },
+          "result": [
+            {
+              "functionResponse": {
+                "id": "shcg5o#3-0",
+                "name": "get_internal_docs",
+                "response": {
+                  "output": "# Extension reference\n\nThis guide covers the `gemini extensions` commands and the structure of the\n`gemini-extension.json` configuration file.\n\n## Manage extensions\n\nUse the `gemini extensions` command group to manage your extensions from the\nterminal.\n\nNote that commands like `gemini extensions install` are not supported within the\nCLI's interactive mode. However, you can use the `/extensions list` command to\nview installed extensions. All management operations, including updates to slash\ncommands, take effect only after you restart the CLI session.\n\n### Install an extension\n\nInstall an extension by providing its GitHub repository URL or a local file\npath.\n\nGemini CLI creates a copy of the extension during installation. You must run\n`gemini extensions update` to pull changes from the source. To install from\nGitHub, you must have `git` installed on your machine.\n\n```bash\ngemini extensions install <source> [--ref <ref>] [--auto-update] [--pre-release] [--consent] [--skip-settings]\n```\n\n- `<source>`: The GitHub URL or local path of the extension.\n- `--ref`: The git ref (branch, tag, or commit) to install.\n- `--auto-update`: Enable automatic updates for this extension.\n- `--pre-release`: Enable installation of pre-release versions.\n- `--consent`: Acknowledge security risks and skip the confirmation prompt.\n- `--skip-settings`: Skip the configuration on install process.\n\n### Uninstall an extension\n\nTo uninstall one or more extensions, use the `uninstall` command:\n\n```bash\ngemini extensions uninstall <name...>\n```\n\n### Disable an extension\n\nExtensions are enabled globally by default. You can disable an extension\nentirely or for a specific workspace.\n\n```bash\ngemini extensions disable <name> [--scope <scope>]\n```\n\n- `<name>`: The name of the extension to disable.\n- `--scope`: The scope to disable the extension in (`user` or `workspace`).\n\n### Enable an extension\n\nRe-enable a disabled extension using the `enable` command:\n\n```bash\ngemini extensions enable <name> [--scope <scope>]\n```\n\n- `<name>`: The name of the extension to enable.\n- `--scope`: The scope to enable the extension in (`user` or `workspace`).\n\n### Update an extension\n\nUpdate an extension to the version specified in its `gemini-extension.json`\nfile.\n\n```bash\ngemini extensions update <name>\n```\n\nTo update all installed extensions at once:\n\n```bash\ngemini extensions update --all\n```\n\n### Create an extension from a template\n\nCreate a new extension directory using a built-in template.\n\n```bash\ngemini extensions new <path> [template]\n```\n\n- `<path>`: The directory to create.\n- `[template]`: The template to use (e.g., `mcp-server`, `context`,\n  `custom-commands`).\n\n### Link a local extension\n\nCreate a symbolic link between your development directory and the Gemini CLI\nextensions directory. This lets you test changes immediately without\nreinstalling.\n\n```bash\ngemini extensions link <path>\n```\n\n## Extension format\n\nGemini CLI loads extensions from `<home>/.gemini/extensions`. Each extension\nmust have a `gemini-extension.json` file in its root directory.\n\n### `gemini-extension.json`\n\nThe manifest file defines the extension's behavior and configuration.\n\n```json\n{\n  \"name\": \"my-extension\",\n  \"version\": \"1.0.0\",\n  \"description\": \"My awesome extension\",\n  \"mcpServers\": {\n    \"my-server\": {\n      \"command\": \"node\",\n      \"args\": [\"${extensionPath}/my-server.js\"],\n      \"cwd\": \"${extensionPath}\"\n    }\n  },\n  \"contextFileName\": \"GEMINI.md\",\n  \"excludeTools\": [\"run_shell_command\"],\n  \"migratedTo\": \"https://github.com/new-owner/new-extension-repo\",\n  \"plan\": {\n    \"directory\": \".gemini/plans\"\n  }\n}\n```\n\n- `name`: The name of the extension. This is used to uniquely identify the\n  extension and for conflict resolution when extension commands have the same\n  name as user or project commands. The name should be lowercase or numbers and\n  use dashes instead of underscores or spaces. This is how users will refer to\n  your extension in the CLI. Note that we expect this name to match the\n  extension directory name.\n- `version`: The version of the extension.\n- `description`: A short description of the extension. This will be displayed on\n  [geminicli.com/extensions](https://geminicli.com/extensions).\n- `migratedTo`: The URL of the new repository source for the extension. If this\n  is set, the CLI will automatically check this new source for updates and\n  migrate the extension's installation to the new source if an update is found.\n- `mcpServers`: A map of MCP servers to settings. The key is the name of the\n  server, and the value is the server configuration. These servers will be\n  loaded on startup just like MCP servers defined in a\n  [`settings.json` file](../reference/configuration.md). If both an extension\n  and a `settings.json` file define an MCP server with the same name, the server\n  defined in the `settings.json` file takes precedence.\n  - Note that all MCP server configuration options are supported except for\n    `trust`.\n  - For portability, you should use `${extensionPath}` to refer to files within\n    your extension directory.\n  - Separate your executable and its arguments using `command` and `args`\n    instead of putting them both in `command`.\n- `contextFileName`: The name of the file that contains the context for the\n  extension. This will be used to load the context from the extension directory.\n  If this property is not used but a `GEMINI.md` file is present in your\n  extension directory, then that file will be loaded.\n- `excludeTools`: An array of tool names to exclude from the model. You can also\n  specify command-specific restrictions for tools that support it, like the\n  `run_shell_command` tool. For example,\n  `\"excludeTools\": [\"run_shell_command(rm -rf)\"]` will block the `rm -rf`\n  command. Note that this differs from the MCP server `excludeTools`\n  functionality, which can be listed in the MCP server config.\n- `plan`: Planning features configuration.\n  - `directory`: The directory where planning artifacts are stored. This serves\n    as a fallback if the user hasn't specified a plan directory in their\n    settings. If not specified by either the extension or the user, the default\n    is `~/.gemini/tmp/<project>/<session-id>/plans/`.\n\nWhen Gemini CLI starts, it loads all the extensions and merges their\nconfigurations. If there are any conflicts, the workspace configuration takes\nprecedence.\n\n### Extension settings\n\nExtensions can define settings that users provide during installation, such as\nAPI keys or URLs. These values are stored in a `.env` file within the extension\ndirectory.\n\nTo define settings, add a `settings` array to your manifest:\n\n```json\n{\n  \"name\": \"my-api-extension\",\n  \"version\": \"1.0.0\",\n  \"settings\": [\n    {\n      \"name\": \"API Key\",\n      \"description\": \"Your API key for the service.\",\n      \"envVar\": \"MY_API_KEY\",\n      \"sensitive\": true\n    }\n  ]\n}\n```\n\n- `name`: The setting's display name.\n- `description`: A clear explanation of the setting.\n- `envVar`: The environment variable name where the value is stored.\n- `sensitive`: If `true`, the value is stored in the system keychain and\n  obfuscated in the UI.\n\nTo update an extension's settings:\n\n```bash\ngemini extensions config <name> [setting] [--scope <scope>]\n```\n\n### Custom commands\n\nProvide [custom commands](../cli/custom-commands.md) by placing TOML files in a\n`commands/` subdirectory. Gemini CLI uses the directory structure to determine\nthe command name.\n\nFor an extension named `gcp`:\n\n- `commands/deploy.toml` becomes `/deploy`\n- `commands/gcs/sync.toml` becomes `/gcs:sync` (namespaced with a colon)\n\n### Hooks\n\nIntercept and customize CLI behavior using [hooks](../hooks/index.md). Define\nhooks in a `hooks/hooks.json` file within your extension directory. Note that\nhooks are not defined in the `gemini-extension.json` manifest.\n\n### Agent skills\n\nBundle [agent skills](../cli/skills.md) to provide specialized workflows. Place\nskill definitions in a `skills/` directory. For example,\n`skills/security-audit/SKILL.md` exposes a `security-audit` skill.\n\n### Sub-agents\n\n<!-- prettier-ignore -->\n> [!NOTE]\n> Sub-agents are a preview feature currently under active development.\n\nProvide [sub-agents](../core/subagents.md) that users can delegate tasks to. Add\nagent definition files (`.md`) to an `agents/` directory in your extension root.\n\n### <a id=\"policy-engine\"></a>Policy Engine\n\nExtensions can contribute policy rules and safety checkers to the Gemini CLI\n[Policy Engine](../reference/policy-engine.md). These rules are defined in\n`.toml` files and take effect when the extension is activated.\n\nTo add policies, create a `policies/` directory in your extension's root and\nplace your `.toml` policy files inside it. Gemini CLI automatically loads all\n`.toml` files from this directory.\n\nRules contributed by extensions run in their own tier (tier 2), alongside\nworkspace-defined policies. This tier has higher priority than the default rules\nbut lower priority than user or admin policies.\n\n<!-- prettier-ignore -->\n> [!WARNING]\n> For security, Gemini CLI ignores any `allow` decisions or `yolo`\n> mode configurations in extension policies. This ensures that an extension\n> cannot automatically approve tool calls or bypass security measures without\n> your confirmation.\n\n**Example `policies.toml`**\n\n```toml\n[[rule]]\nmcpName = \"my_server\"\ntoolName = \"dangerous_tool\"\ndecision = \"ask_user\"\npriority = 100\n\n[[safety_checker]]\nmcpName = \"my_server\"\ntoolName = \"write_data\"\npriority = 200\n[safety_checker.checker]\ntype = \"in-process\"\nname = \"allowed-path\"\nrequired_context = [\"environment\"]\n```\n\n### Themes\n\nExtensions can provide custom themes to personalize the CLI UI. Themes are\ndefined in the `themes` array in `gemini-extension.json`.\n\n**Example**\n\n```json\n{\n  \"name\": \"my-green-extension\",\n  \"version\": \"1.0.0\",\n  \"themes\": [\n    {\n      \"name\": \"shades-of-green\",\n      \"type\": \"custom\",\n      \"background\": {\n        \"primary\": \"#1a362a\"\n      },\n      \"text\": {\n        \"primary\": \"#a6e3a1\",\n        \"secondary\": \"#6e8e7a\",\n        \"link\": \"#89e689\"\n      },\n      \"status\": {\n        \"success\": \"#76c076\",\n        \"warning\": \"#d9e689\",\n        \"error\": \"#b34e4e\"\n      },\n      \"border\": {\n        \"default\": \"#4a6c5a\"\n      },\n      \"ui\": {\n        \"comment\": \"#6e8e7a\"\n      }\n    }\n  ]\n}\n```\n\nCustom themes provided by extensions can be selected using the `/theme` command\nor by setting the `ui.theme` property in your `settings.json` file. Note that\nwhen referring to a theme from an extension, the extension name is appended to\nthe theme name in parentheses, e.g., `shades-of-green (my-green-extension)`.\n\n### Conflict resolution\n\nExtension commands have the lowest precedence. If an extension command name\nconflicts with a user or project command, the extension command is prefixed with\nthe extension name (e.g., `/gcp.deploy`) using a dot separator.\n\n## Variables\n\nGemini CLI supports variable substitution in `gemini-extension.json` and\n`hooks/hooks.json`.\n\n| Variable           | Description                                     |\n| :----------------- | :---------------------------------------------- |\n| `${extensionPath}` | The absolute path to the extension's directory. |\n| `${workspacePath}` | The absolute path to the current workspace.     |\n| `${/}`             | The platform-specific path separator.           |\n"
+                }
+              }
+            }
+          ],
+          "status": "success",
+          "timestamp": "2026-04-12T02:27:08.318Z",
+          "resultDisplay": "Successfully read documentation: extensions/reference.md",
+          "description": "Reading internal documentation: extensions/reference.md",
+          "displayName": "GetInternalDocs",
+          "renderOutputAsMarkdown": true
+        }
+      ]
+    },
+    {
+      "id": "25c21dd1-489f-48e1-b107-e079061fc2fc",
+      "timestamp": "2026-04-12T02:27:20.819Z",
+      "type": "gemini",
+      "content": "The Gemini CLI provides robust support for project-specific (workspace) scoping for agent skills, including those bundled in extensions like \"superpowers.\"\n\n### Project-Specific Installation\nYou can install agent skills specifically for a project by using the `--scope workspace` flag. This places the skill in the project's local `.gemini/skills/` (or the `.agents/skills/` alias) directory instead of your global user directory.\n\n```bash\n# Install a skill from a local path or Git URL to the current project only\ngemini skills install <path-or-url> --scope workspace\n```\n\nSkills stored in the workspace scope are typically committed to version control, allowing them to be shared with your team and ensuring they are only available when working within that specific project.\n\n### Project-Specific Configuration\nYou can also enable or disable skills on a per-project basis. This is useful for controlling which \"superpowers\" or other specialized expertise are active for a particular codebase.\n\n*   **From the Terminal:**\n    ```bash\n    gemini skills disable <skill-name> --scope workspace\n    ```\n*   **During an Interactive Session:**\n    ```bash\n    /skills disable <skill-name> --scope workspace\n    ```\n\n### Scoping for Extensions (like \"superpowers\")\nIf the skills you are referring to are bundled within an extension (such as the \"superpowers\" extension), you can manage the entire extension's availability for a specific project:\n\n```bash\n# Disable the 'superpowers' extension for the current workspace only\ngemini extensions disable superpowers --scope workspace\n```\n\n### Precedence Rules\nGemini CLI follows a specific hierarchy when discovering skills. If a skill with the same name exists in multiple locations, the project-specific version takes precedence:\n**Workspace > User (Global) > Extension**\n\nThis means you can \"override\" a global or extension-provided skill by placing a version of it with the same name in your project's `.gemini/skills/` directory.\n\n### Summary Table\n| Action | Command | Scope Flag | Resulting Location |\n| :--- | :--- | :--- | :--- |\n| **Install** | `gemini skills install` | `--scope workspace` | `./.gemini/skills/` |\n| **Link** | `gemini skills link` | `--scope workspace` | `./.gemini/skills/` (symlink) |\n| **Configure** | `gemini skills disable` | `--scope workspace` | Project-level setting |\n| **Extensions** | `gemini extensions disable` | `--scope workspace` | Project-level setting |\n\n**Sources:**\n- `cli/skills.md`\n- `extensions/reference.md`\n- `cli/tutorials/skills-getting-started.md`",
+      "thoughts": [
+        {
+          "subject": "Investigating Extension Scope",
+          "description": "I'm currently focused on the implications of disabling and enabling extensions at the workspace level. Thinking through how this impacts the bundled skill sets and if the `skills/` directory structure needs any adjustments based on the scope. Considering the user and workspace scope options.",
+          "timestamp": "2026-04-12T02:27:10.995Z"
+        },
+        {
+          "subject": "Defining Skill Configuration Scope",
+          "description": "I've determined that agent skills can indeed be configured project-specifically. I've confirmed this by examining the extension management system, which allows enabling or disabling extensions, including their skills, at the workspace level. Furthermore, the `gemini skills install` command, with the `--scope workspace` flag, provides direct control over skill deployment within the project. I've identified the key storage locations for these workspace-specific skills.",
+          "timestamp": "2026-04-12T02:27:12.799Z"
+        },
+        {
+          "subject": "Concluding Skill Configuration",
+          "description": "I've synthesized all the findings.  It's clear that skills, including those bundled within extensions like \"superpowers,\" are project-specifically configurable.  The user can control this via enabling/disabling the extension within the workspace using the extension CLI.  Alternatively, the user can install individual skills directly into the `.gemini/skills/` directory.  These workspace skills then take precedence, addressing the core question.",
+          "timestamp": "2026-04-12T02:27:14.368Z"
+        },
+        {
+          "subject": "Confirming Skill Deployment Methods",
+          "description": "I've clarified the answer. Users can configure project-specific agent skills. They can install individual skills directly into the project's skill directory using the workspace scope. Alternatively, they can enable or disable entire extensions, such as \"superpowers,\" for the workspace using the extension management commands, which also enables or disables the bundled skills.",
+          "timestamp": "2026-04-12T02:27:15.074Z"
+        }
+      ],
+      "tokens": {
+        "input": 9949,
+        "output": 1090,
+        "cached": 3765,
+        "thoughts": 693,
+        "tool": 0,
+        "total": 11732
+      },
+      "model": "gemini-3-flash-preview"
+    }
+  ],
+  "directories": [
+    "/Users/agunginsani",
+    "/Users/agunginsani/.gemini/extensions/superpowers/skills/brainstorming"
+  ],
+  "kind": "subagent",
+  "summary": "{\n  \"answer\": \"Yes, you can install and configure agent skills (including those bundled in extensions like \\\"superpowers\\\") on a project-specific scope. Gemini CLI uses a **Workspace** scope for th..."
+}
