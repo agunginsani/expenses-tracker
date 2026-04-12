@@ -4,6 +4,8 @@ import { parseExpense } from './services/gemini';
 import { saveToSheet } from './services/sheets';
 import axios from 'axios';
 
+import { ZodError } from 'zod';
+
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || '');
 
 bot.start((ctx) => ctx.reply('Welcome! Send me an expense text or a receipt photo.'));
@@ -16,6 +18,9 @@ bot.on(message('text'), async (ctx) => {
     ctx.reply(`✅ Saved: ${data.amount} ${data.currency} for ${data.description} (${data.category})`);
   } catch (err) {
     console.error(err);
+    if (err instanceof ZodError) {
+      return ctx.reply('❌ Data validation failed. The AI provided an invalid format. Please try again.');
+    }
     ctx.reply('❌ The AI service is currently busy or unavailable. Please try again in a few minutes.');
   }
 });
@@ -33,6 +38,9 @@ bot.on(message('photo'), async (ctx) => {
     ctx.reply(`📸 Receipt saved: ${data.amount} ${data.currency} at ${data.description}`);
   } catch (err) {
     console.error(err);
+    if (err instanceof ZodError) {
+      return ctx.reply('❌ Data validation failed. The AI provided an invalid format. Please try again.');
+    }
     ctx.reply('❌ The AI service is currently busy or unavailable. Please try again in a few minutes.');
   }
 });
