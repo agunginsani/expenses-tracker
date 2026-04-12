@@ -24,7 +24,7 @@ export async function parseExpense(input: string | Buffer, isImage = false) {
         ]);
       }
 
-      const response = await result.response;
+      const response = result.response;
       const text = response.text();
       const jsonMatch = text.match(/\{.*\}/s);
       if (!jsonMatch) throw new Error("Failed to parse AI response");
