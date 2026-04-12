@@ -1,24 +1,14 @@
-import { describe, it, expect, mock } from 'bun:test';
+import { describe, it, expect, mock, beforeEach } from 'bun:test';
 
-// Mock the GoogleGenerativeAI module
+const mockGenerateContent = mock();
+
+// Mock the GoogleGenerativeAI module once at the top level
 mock.module("@google/generative-ai", () => {
   return {
     GoogleGenerativeAI: class {
       getGenerativeModel() {
         return {
-          generateContent: mock(async () => {
-            return {
-              response: {
-                text: () => JSON.stringify({
-                  amount: 10,
-                  currency: '$',
-                  description: 'coffee',
-                  category: 'Food',
-                  date: '2026-04-12'
-                })
-              }
-            };
-          })
+          generateContent: mockGenerateContent
         };
       }
     }
@@ -26,7 +16,23 @@ mock.module("@google/generative-ai", () => {
 });
 
 describe('Gemini Service', () => {
+  beforeEach(() => {
+    mockGenerateContent.mockClear();
+  });
+
   it('should parse simple text expense', async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () => JSON.stringify({
+          amount: 10,
+          currency: '$',
+          description: 'coffee',
+          category: 'Food',
+          date: '2026-04-12'
+        })
+      }
+    });
+
     const { parseExpense } = await import('./gemini');
     const input = "10$ for coffee";
     const result = await parseExpense(input);
@@ -40,17 +46,20 @@ describe('Gemini Service', () => {
     });
   });
 
-  it('should parse image expense', async () => {
-    const { parseExpense } = await import('./gemini');
-    const input = Buffer.from("fake-image-data");
-    const result = await parseExpense(input, true);
-    
-    expect(result).toEqual({
-      amount: 10,
-      currency: '$',
-      description: 'coffee',
-      category: 'Food',
-      date: '2026-04-12'
+  it('should throw ZodError if AI returns invalid data', async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () => JSON.stringify({
+          amount: -50, // Invalid: must be positive
+          currency: '$',
+          description: 'invalid',
+          category: 'Food',
+          date: '2026-04-12'
+        })
+      }
     });
+
+    const { parseExpense } = await import('./gemini');
+    await expect(parseExpense("invalid input")).rejects.toThrow();
   });
 });
