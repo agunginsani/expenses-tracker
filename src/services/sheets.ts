@@ -1,8 +1,11 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
-import { ExpenseData } from './gemini';
+import { ExpenseSchema, type ExpenseData } from '../schemas/expense';
 
 export async function saveToSheet(data: ExpenseData) {
+  // Validate at the boundary
+  ExpenseSchema.parse(data);
+
   try {
     const serviceAccountAuth = new JWT({
       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,

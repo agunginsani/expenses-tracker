@@ -85,4 +85,16 @@ describe('Sheets Service', () => {
 
     consoleSpy.mockRestore();
   });
+
+  it('should throw error if input data is invalid', async () => {
+    const { saveToSheet } = await import('./sheets');
+    const invalidData = {
+      amount: -10, // Invalid
+      currency: '$',
+      description: 'coffee',
+      category: 'Food' as any,
+      date: '2026-04-12'
+    };
+    await expect(saveToSheet(invalidData)).rejects.toThrow();
+  });
 });
