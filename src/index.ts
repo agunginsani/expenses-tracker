@@ -10,6 +10,7 @@ bot.start((ctx) => ctx.reply('Welcome! Send me an expense text or a receipt phot
 
 bot.on(message('text'), async (ctx) => {
   try {
+    await ctx.reply('⏳ Processing your expense...');
     const data = await parseExpense(ctx.message.text);
     await saveToSheet(data);
     ctx.reply(`✅ Saved: ${data.amount} ${data.currency} for ${data.description} (${data.category})`);
@@ -21,6 +22,7 @@ bot.on(message('text'), async (ctx) => {
 
 bot.on(message('photo'), async (ctx) => {
   try {
+    await ctx.reply('⏳ Processing your receipt photo...');
     const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
     const link = await ctx.telegram.getFileLink(fileId);
     const response = await axios.get(link.href, { responseType: 'arraybuffer' });
