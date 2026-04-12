@@ -15,7 +15,7 @@ bot.on(message('text'), async (ctx) => {
     ctx.reply(`✅ Saved: ${data.amount} ${data.currency} for ${data.description} (${data.category})`);
   } catch (err) {
     console.error(err);
-    ctx.reply('❌ Error parsing expense. Try again.');
+    ctx.reply('❌ The AI service is currently busy or unavailable. Please try again in a few minutes.');
   }
 });
 
@@ -31,7 +31,7 @@ bot.on(message('photo'), async (ctx) => {
     ctx.reply(`📸 Receipt saved: ${data.amount} ${data.currency} at ${data.description}`);
   } catch (err) {
     console.error(err);
-    ctx.reply('❌ Error processing receipt photo.');
+    ctx.reply('❌ The AI service is currently busy or unavailable. Please try again in a few minutes.');
   }
 });
 
