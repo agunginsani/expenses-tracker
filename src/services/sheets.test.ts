@@ -1,4 +1,4 @@
-import { describe, it, expect, mock } from 'bun:test';
+import { describe, it, expect, mock, beforeEach, spyOn } from 'bun:test';
 
 // Define the mock outside to make it accessible to mock.module
 const mockAddRow = mock(() => Promise.resolve());
@@ -31,6 +31,11 @@ mock.module('google-auth-library', () => {
 });
 
 describe('Sheets Service', () => {
+  beforeEach(() => {
+    mockAddRow.mockClear();
+    mockLoadInfo.mockClear();
+  });
+
   it('should call saveToSheet with correct data', async () => {
     // Set some dummy environment variables
     process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL = 'test@example.com';
@@ -58,5 +63,26 @@ describe('Sheets Service', () => {
       Currency: data.currency,
       'Raw Message': JSON.stringify(data)
     });
+  });
+
+  it('should log and re-throw error if saveToSheet fails', async () => {
+    const { saveToSheet } = await import('./sheets');
+    
+    const data = {
+      amount: 10,
+      currency: '$',
+      description: 'coffee',
+      category: 'Food' as any,
+      date: '2026-04-12'
+    };
+
+    const error = new Error('API Error');
+    mockLoadInfo.mockRejectedValueOnce(error);
+    const consoleSpy = spyOn(console, 'error').mockImplementation(() => {});
+
+    await expect(saveToSheet(data)).rejects.toThrow('API Error');
+    expect(consoleSpy).toHaveBeenCalledWith('Error saving to Google Sheets:', error);
+
+    consoleSpy.mockRestore();
   });
 });
