@@ -14,14 +14,26 @@ export async function saveToSheet(data: ExpenseData) {
     await doc.loadInfo();
     const sheet = doc.sheetsByIndex[0];
     
-    await sheet.addRow({
+    const rowData = {
       Date: data.date,
       Description: data.description,
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
       'Raw Message': JSON.stringify(data)
-    });
+    };
+
+    try {
+      await sheet.addRow(rowData);
+    } catch (e: any) {
+      if (e.message && e.message.includes('No values in the header row')) {
+        console.log('Empty sheet detected. Initializing headers...');
+        await sheet.setHeaderRow(['Date', 'Description', 'Category', 'Amount', 'Currency', 'Raw Message']);
+        await sheet.addRow(rowData);
+      } else {
+        throw e;
+      }
+    }
   } catch (error) {
     console.error('Error saving to Google Sheets:', error);
     throw error;
