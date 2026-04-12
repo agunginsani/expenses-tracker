@@ -8,7 +8,6 @@ const mockLoadInfo = mock(() => Promise.resolve());
 mock.module("google-spreadsheet", () => {
   return {
     GoogleSpreadsheet: class {
-      constructor(id: string, auth: any) {}
       loadInfo = mockLoadInfo;
       get sheetsByIndex() {
         return [
@@ -24,9 +23,7 @@ mock.module("google-spreadsheet", () => {
 // Mock google-auth-library
 mock.module("google-auth-library", () => {
   return {
-    JWT: class {
-      constructor(options: any) {}
-    },
+    JWT: class {},
   };
 });
 
