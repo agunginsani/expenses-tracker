@@ -1,6 +1,4 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/webhook", "destination": "/api/index.ts" }
-  ]
+  "rewrites": [{ "source": "/api/webhook", "destination": "/api/index.ts" }]
 }
