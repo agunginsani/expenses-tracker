@@ -26,7 +26,6 @@ export async function saveToSheet(data: ExpenseData) {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
-      "Raw Message": JSON.stringify(data),
     };
 
     try {
@@ -41,7 +40,6 @@ export async function saveToSheet(data: ExpenseData) {
           "Category",
           "Amount",
           "Currency",
-          "Raw Message",
         ]);
         await sheet.addRow(rowData);
       } else {
