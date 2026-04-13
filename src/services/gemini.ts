@@ -2,7 +2,7 @@ import {
   type GenerateContentResult,
   GoogleGenerativeAI,
 } from "@google/generative-ai";
-import { ExpenseSchema } from "../schemas/expense";
+import { ExpenseSchema } from "../schemas/expense.js";
 
 export const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 export const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });

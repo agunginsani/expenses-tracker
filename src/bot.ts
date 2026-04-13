@@ -1,8 +1,8 @@
 import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 import { ZodError } from "zod";
-import { parseExpense } from "./services/gemini";
-import { saveToSheet } from "./services/sheets";
+import { parseExpense } from "./services/gemini.js";
+import { saveToSheet } from "./services/sheets.js";
 
 export const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 
