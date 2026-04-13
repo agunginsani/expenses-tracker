@@ -1,4 +1,4 @@
-import { bot } from "./bot";
+import { bot } from "./bot.js";
 
 console.log("Bot is starting in polling mode (local)...");
 bot.launch().catch((err) => console.error("Failed to launch bot:", err));

@@ -1,6 +1,6 @@
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
-import { type ExpenseData, ExpenseSchema } from "../schemas/expense";
+import { type ExpenseData, ExpenseSchema } from "../schemas/expense.js";
 
 export async function saveToSheet(data: ExpenseData) {
   // Validate at the boundary

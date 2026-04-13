@@ -1,4 +1,4 @@
-import { bot } from "../src/bot";
+import { bot } from "../src/bot.js";
 
 const url = process.argv[2];
 

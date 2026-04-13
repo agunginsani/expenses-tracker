@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { bot } from "../src/bot";
+import { bot } from "../src/bot.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
