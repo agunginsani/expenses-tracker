@@ -58,7 +58,6 @@ describe("Sheets Service", () => {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
-      "Raw Message": JSON.stringify(data),
     });
   });
 
