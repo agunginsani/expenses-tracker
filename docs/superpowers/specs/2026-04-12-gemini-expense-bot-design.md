@@ -37,7 +37,6 @@ The Google Sheet will contain the following columns:
 - **Category:** AI-categorized (e.g., Food, Transport, Shopping).
 - **Amount:** The numeric value.
 - **Currency:** Extracted from the input.
-- **Raw Message:** For audit purposes.
 
 ## Security & Privacy
 - **Telegram Bot Token:** Kept secret in `.env`.
