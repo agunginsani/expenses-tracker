@@ -20,7 +20,7 @@
 
 ```typescript
 import { Telegraf } from "telegraf";
-import { message } from "telegraf/filters.js";
+import { message } from "telegraf/filters";
 import { ZodError } from "zod";
 import { parseExpense } from "./services/gemini.js";
 import { saveToSheet } from "./services/sheets.js";
