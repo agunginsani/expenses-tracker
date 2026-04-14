@@ -251,6 +251,28 @@ describe("Gemini Service", () => {
     expect(mockGenerateContent.mock.calls.length).toBe(1);
   });
 
+  it("should override category if explicitly mentioned in text", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 150000,
+            currency: "IDR",
+            description: "lunch with client",
+            category: "Social",
+            date: "2026-04-14",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("150k for lunch with client, put it in Social. date is 2026-04-14");
+    
+    expect(result.amount).toBe(150000);
+    expect(result.category).toBe("Social");
+    expect(result.date).toBe("2026-04-14");
+  });
+
   it("should handle combined PDF and caption", async () => {
     mockGenerateContent.mockResolvedValue({
       response: {
