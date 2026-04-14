@@ -7,15 +7,22 @@ import { ExpenseSchema } from "../schemas/expense.js";
 export const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 export const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 
-export async function parseExpense(input: string | Buffer, isImage = false) {
-  const prompt = `Extract expense details from the following ${isImage ? "image" : "text"}. 
+export async function parseExpense(
+  input: string | Buffer,
+  options: { mimeType?: string; caption?: string } = {},
+) {
+  const { mimeType = "image/jpeg", caption } = options;
+
+  const prompt = `Extract expense details from the following media (image/PDF) or text. 
   Return ONLY a JSON object with: amount (number), currency (string), description (string), category (string), date (YYYY-MM-DD).
-  Default date to today if not found. 
+  
+  STRICT DATE RULE: If the transaction date is not found in the provided content, do NOT guess. Set "date" to null.
+  
   Categories MUST be one of: 
   - Food
-  - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
-  - Shopping (or specific: Shopping: Groceries, Shopping: Fashion, Shopping: Gadgets)
-  - Bills (or specific: Bills: Electricity, Bills: Water, Bills: Internet, Bills: Mobile Data, Bills: Rent, Bills: Subscription)
+  - Transport (or specific subclasses)
+  - Shopping (or specific subclasses)
+  - Bills (or specific subclasses)
   - Social
   - Others`;
 
@@ -28,15 +35,17 @@ export async function parseExpense(input: string | Buffer, isImage = false) {
       if (typeof input === "string") {
         result = await model.generateContent([prompt, input]);
       } else {
-        result = await model.generateContent([
+        const parts: any[] = [
           prompt,
           {
             inlineData: {
               data: input.toString("base64"),
-              mimeType: "image/jpeg",
+              mimeType: mimeType,
             },
           },
-        ]);
+        ];
+        if (caption) parts.push(`User note: ${caption}`);
+        result = await model.generateContent(parts);
       }
 
       const response = result.response;
