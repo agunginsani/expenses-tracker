@@ -22,9 +22,9 @@ export async function parseExpense(
   
   Categories MUST be one of: 
   - Food
-  - Transport (or specific subclasses)
-  - Shopping (or specific subclasses)
-  - Bills (or specific subclasses)
+  - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
+  - Shopping (or specific: Shopping: Groceries, Shopping: Fashion, Shopping: Gadgets)
+  - Bills (or specific: Bills: Electricity, Bills: Water, Bills: Internet, Bills: Mobile Data, Bills: Rent, Bills: Subscription)
   - Social
   - Others`;
 
