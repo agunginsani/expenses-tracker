@@ -20,10 +20,10 @@
 
 ```typescript
 import { Telegraf } from "telegraf";
-import { message } from "telegraf/filters";
+import { message } from "telegraf/filters.js";
 import { ZodError } from "zod";
-import { parseExpense } from "./services/gemini";
-import { saveToSheet } from "./services/sheets";
+import { parseExpense } from "./services/gemini.js";
+import { saveToSheet } from "./services/sheets.js";
 
 export const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 
@@ -83,7 +83,7 @@ bot.on(message("photo"), async (ctx) => {
 - [ ] **Step 2: Update `src/index.ts` to use the exported `bot` for local polling**
 
 ```typescript
-import { bot } from "./bot";
+import { bot } from "./bot.js";
 
 console.log("Bot is starting in polling mode (local)...");
 bot.launch().catch((err) => console.error("Failed to launch bot:", err));
@@ -115,7 +115,7 @@ git commit -m "refactor: separate bot logic from entry point"
 
 ```typescript
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { bot } from '../src/bot';
+import { bot } from '../src/bot.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -179,7 +179,7 @@ git commit -m "config: add vercel configuration"
 - [ ] **Step 1: Implement the script to call Telegram's `setWebhook` API**
 
 ```typescript
-import { bot } from "../src/bot";
+import { bot } from "../src/bot.js";
 
 const url = process.argv[2];
 

@@ -95,7 +95,7 @@ git commit -m "refactor(gemini): export model and genAI for better testability"
 
 ```typescript
 import { describe, it, expect, mock, spyOn } from 'bun:test';
-import { parseExpense } from './gemini';
+import { parseExpense } from './gemini.js';
 
 // Mock the GoogleGenerativeAI module
 mock.module("@google/generative-ai", () => {

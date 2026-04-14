@@ -58,7 +58,7 @@ Run: `git add package.json src/schemas/expense.ts && git commit -m "feat: add zo
 Modify `src/services/gemini.test.ts` to add a test case for invalid data:
 ```typescript
   it('should throw ZodError if AI returns invalid data', async () => {
-    const { parseExpense, genAI } = await import('./gemini');
+    const { parseExpense, genAI } = await import('./gemini.js');
     
     // Mocking a response with invalid amount
     mock.module("@google/generative-ai", () => ({
@@ -94,7 +94,7 @@ Expected: FAIL (it currently won't throw because it's not using Zod)
 
 ```typescript
 import { GoogleGenerativeAI, type GenerateContentResult } from "@google/generative-ai";
-import { ExpenseSchema } from "../schemas/expense";
+import { ExpenseSchema } from "../schemas/expense.js";
 
 export const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 export const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
@@ -168,7 +168,7 @@ Run: `git add src/services/gemini.ts src/services/gemini.test.ts && git commit -
 ```typescript
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
-import { ExpenseSchema, type ExpenseData } from '../schemas/expense';
+import { ExpenseSchema, type ExpenseData } from '../schemas/expense.js';
 
 export async function saveToSheet(data: ExpenseData) {
   // Validate at the boundary
@@ -216,7 +216,7 @@ export async function saveToSheet(data: ExpenseData) {
 
 ```typescript
   it('should throw error if input data is invalid', async () => {
-    const { saveToSheet } = await import('./sheets');
+    const { saveToSheet } = await import('./sheets.js');
     const invalidData = {
       amount: -10, // Invalid
       currency: '$',

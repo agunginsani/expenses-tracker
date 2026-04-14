@@ -34,7 +34,7 @@ describe("Gemini Service", () => {
       },
     });
 
-    const { parseExpense } = await import("./gemini");
+    const { parseExpense } = await import("./gemini.js");
     const input = "10$ for coffee";
     const result = await parseExpense(input);
 
@@ -61,7 +61,7 @@ describe("Gemini Service", () => {
       },
     });
 
-    const { parseExpense } = await import("./gemini");
+    const { parseExpense } = await import("./gemini.js");
     await expect(parseExpense("invalid input")).rejects.toThrow();
   });
 });
