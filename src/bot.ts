@@ -70,7 +70,7 @@ bot.on(message("document"), async (ctx) => {
 function handleBotError(ctx: any, err: any) {
   console.error(err);
   if (err instanceof ZodError) {
-    const dateError = err.errors.find((e) => e.path.includes("date"));
+    const dateError = err.issues?.find((e) => e.path.includes("date"));
     if (dateError) {
       return ctx.reply(
         "❌ Transaction date not found. Please provide it in the caption (e.g., 'Lunch on 2026-04-14') or send a clearer photo.",
