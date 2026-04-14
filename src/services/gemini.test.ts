@@ -168,4 +168,146 @@ describe("Gemini Service", () => {
     const { parseExpense } = await import("./gemini.js");
     await expect(parseExpense("invalid input")).rejects.toThrow();
   });
+
+  it("should handle buffer input with mimeType (PDF)", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 250,
+            currency: "USD",
+            description: "digital invoice",
+            category: "Bills",
+            date: "2026-04-14",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const buffer = Buffer.from("fake pdf content");
+    const result = await parseExpense(buffer, { mimeType: "application/pdf" });
+
+    expect(result).toEqual({
+      amount: 250,
+      currency: "USD",
+      description: "digital invoice",
+      category: "Bills",
+      date: "2026-04-14",
+    });
+
+    // Verify generateContent was called with correct parts
+    const lastCall = mockGenerateContent.mock.calls[0][0];
+    expect(lastCall).toContainEqual({
+      inlineData: {
+        data: buffer.toString("base64"),
+        mimeType: "application/pdf",
+      },
+    });
+  });
+
+  it("should include caption in the prompt if provided", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 45,
+            currency: "USD",
+            description: "Lunch with client",
+            category: "Food",
+            date: "2026-04-14",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const buffer = Buffer.from("fake image content");
+    const result = await parseExpense(buffer, { caption: "Lunch with client" });
+
+    expect(result.description).toBe("Lunch with client");
+
+    // Verify generateContent was called with caption
+    const lastCall = mockGenerateContent.mock.calls[0][0];
+    expect(lastCall).toContain("User note: Lunch with client");
+  });
+
+  it("should throw ZodError if date is null (Strict Date Rule)", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 10,
+            currency: "$",
+            description: "no date receipt",
+            category: "Others",
+            date: null,
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    await expect(parseExpense("receipt without date")).rejects.toThrow();
+
+    // Should NOT retry on ZodError
+    expect(mockGenerateContent.mock.calls.length).toBe(1);
+  });
+
+  it("should handle combined PDF and caption", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 500,
+            currency: "USD",
+            description: "Project invoice - Final",
+            category: "Bills",
+            date: "2026-04-14",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const buffer = Buffer.from("fake pdf content");
+    const result = await parseExpense(buffer, {
+      mimeType: "application/pdf",
+      caption: "Final project invoice",
+    });
+
+    expect(result.amount).toBe(500);
+
+    const lastCall = mockGenerateContent.mock.calls[0][0];
+    expect(lastCall).toContainEqual({
+      inlineData: {
+        data: buffer.toString("base64"),
+        mimeType: "application/pdf",
+      },
+    });
+    expect(lastCall).toContain("User note: Final project invoice");
+  });
+
+  it("should default to image/jpeg if mimeType is not provided for Buffer input", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 10,
+            currency: "$",
+            description: "image",
+            category: "Others",
+            date: "2026-04-12",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const buffer = Buffer.from("fake image content");
+    await parseExpense(buffer);
+
+    const lastCall = mockGenerateContent.mock.calls[0][0];
+    expect(lastCall).toContainEqual({
+      inlineData: {
+        data: buffer.toString("base64"),
+        mimeType: "image/jpeg",
+      },
+    });
+  });
 });
