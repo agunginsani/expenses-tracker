@@ -18,6 +18,8 @@ export async function parseExpense(
   
   STRICT DATE RULE: If the transaction date is not found in the provided content, do NOT guess. Set "date" to null.
   
+  CATEGORY OVERRIDE RULE: If the user explicitly mentions one of the allowed categories in their text or user note (e.g., 'save it as Social', 'Transport: Taxi/Ojol'), you MUST use that category regardless of what the media content suggests.
+  
   Categories MUST be one of: 
   - Food
   - Transport (or specific subclasses)
