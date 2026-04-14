@@ -10,7 +10,14 @@ export const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
 export async function parseExpense(input: string | Buffer, isImage = false) {
   const prompt = `Extract expense details from the following ${isImage ? "image" : "text"}. 
   Return ONLY a JSON object with: amount (number), currency (string), description (string), category (string), date (YYYY-MM-DD).
-  Default date to today if not found. Categories should be one of: Food, Transport, Shopping, Bills, Others.`;
+  Default date to today if not found. 
+  Categories MUST be one of: 
+  - Food
+  - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
+  - Shopping (or specific: Shopping: Groceries, Shopping: Fashion, Shopping: Gadgets)
+  - Bills (or specific: Bills: Electricity, Bills: Water, Bills: Internet, Bills: Mobile Data, Bills: Rent, Bills: Subscription)
+  - Social
+  - Others`;
 
   const maxRetries = 3;
   let lastError: unknown;
