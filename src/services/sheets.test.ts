@@ -61,6 +61,29 @@ describe("Sheets Service", () => {
     });
   });
 
+  it("should handle multi-level hierarchical categories in saveToSheet", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+
+    const data = {
+      amount: 500000,
+      currency: "IDR",
+      description: "Monthly Rent",
+      category: "Bills: Rent",
+      date: "2023-10-27",
+    };
+
+    await saveToSheet(data);
+
+    expect(mockLoadInfo).toHaveBeenCalled();
+    expect(mockAddRow).toHaveBeenCalledWith({
+      Date: data.date,
+      Description: data.description,
+      Category: data.category,
+      Amount: data.amount,
+      Currency: data.currency,
+    });
+  });
+
   it("should log and re-throw error if saveToSheet fails", async () => {
     const { saveToSheet } = await import("./sheets.js");
 
