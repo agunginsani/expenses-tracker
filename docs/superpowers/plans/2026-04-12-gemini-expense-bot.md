@@ -92,7 +92,7 @@ Run: `git add . && git commit -m "chore: initial project setup with bun"`
 Create `src/services/gemini.test.ts`:
 ```typescript
 import { describe, it, expect } from 'bun:test';
-import { parseExpense } from './gemini';
+import { parseExpense } from './gemini.js';
 
 describe('Gemini Service', () => {
   it('should parse simple text expense', async () => {
@@ -174,7 +174,7 @@ Create `src/services/sheets.ts`:
 ```typescript
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
-import { ExpenseData } from './gemini';
+import { ExpenseData } from './gemini.js';
 
 export async function saveToSheet(data: ExpenseData) {
   const serviceAccountAuth = new JWT({
@@ -215,8 +215,8 @@ Modify `src/index.ts`:
 ```typescript
 import { Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
-import { parseExpense } from './services/gemini';
-import { saveToSheet } from './services/sheets';
+import { parseExpense } from './services/gemini.js';
+import { saveToSheet } from './services/sheets.js';
 import axios from 'axios';
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || '');

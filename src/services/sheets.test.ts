@@ -39,7 +39,7 @@ describe("Sheets Service", () => {
     process.env.GOOGLE_PRIVATE_KEY = "test-key";
     process.env.GOOGLE_SHEET_ID = "test-id";
 
-    const { saveToSheet } = await import("./sheets");
+    const { saveToSheet } = await import("./sheets.js");
 
     const data = {
       amount: 10,
@@ -62,7 +62,7 @@ describe("Sheets Service", () => {
   });
 
   it("should log and re-throw error if saveToSheet fails", async () => {
-    const { saveToSheet } = await import("./sheets");
+    const { saveToSheet } = await import("./sheets.js");
 
     const data = {
       amount: 10,
@@ -86,7 +86,7 @@ describe("Sheets Service", () => {
   });
 
   it("should throw error if input data is invalid", async () => {
-    const { saveToSheet } = await import("./sheets");
+    const { saveToSheet } = await import("./sheets.js");
     const invalidData = {
       amount: -10, // Invalid
       currency: "$",
