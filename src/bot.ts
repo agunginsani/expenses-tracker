@@ -1,4 +1,4 @@
-import { Telegraf } from "telegraf";
+import { type Context, Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 import { ZodError } from "zod";
 import { parseExpense } from "./services/gemini.js";
@@ -67,7 +67,7 @@ bot.on(message("document"), async (ctx) => {
   }
 });
 
-function handleBotError(ctx: any, err: any) {
+function handleBotError(ctx: Context, err: unknown) {
   console.error(err);
   if (err instanceof ZodError) {
     const dateError = err.issues?.find((e) => e.path.includes("date"));

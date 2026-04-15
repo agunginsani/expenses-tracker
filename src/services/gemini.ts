@@ -1,6 +1,7 @@
 import {
   type GenerateContentResult,
   GoogleGenerativeAI,
+  type Part,
 } from "@google/generative-ai";
 import { ExpenseSchema } from "../schemas/expense.js";
 
@@ -13,14 +14,14 @@ export async function parseExpense(
 ) {
   const { mimeType = "image/jpeg", caption } = options;
 
-  const prompt = `Extract expense details from the following media (image/PDF) or text. 
+  const prompt = `Extract expense details from the following media (image/PDF) or text.
   Return ONLY a JSON object with: amount (number), currency (string), description (string), category (string), date (YYYY-MM-DD).
-  
+
   STRICT DATE RULE: If the transaction date is not found in the provided content, do NOT guess. Set "date" to null.
-  
+
   CATEGORY OVERRIDE RULE: If the user explicitly mentions one of the allowed categories in their text or user note (e.g., 'save it as Social', 'Transport: Taxi/Ojol'), you MUST use that category regardless of what the media content suggests.
-  
-  Categories MUST be one of: 
+
+  Categories MUST be one of:
   - Food
   - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
   - Shopping (or specific: Shopping: Groceries, Shopping: Fashion, Shopping: Gadgets)
@@ -37,7 +38,7 @@ export async function parseExpense(
       if (typeof input === "string") {
         result = await model.generateContent([prompt, input]);
       } else {
-        const parts: any[] = [
+        const parts: (string | Part)[] = [
           prompt,
           {
             inlineData: {
