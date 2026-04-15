@@ -47,7 +47,7 @@ describe("Sheets Service", () => {
       description: "coffee",
       category: "Food",
       date: "2026-04-12",
-    };
+    } as const;
 
     await saveToSheet(data);
 
@@ -70,7 +70,7 @@ describe("Sheets Service", () => {
       description: "Monthly Rent",
       category: "Bills: Rent",
       date: "2023-10-27",
-    };
+    } as const;
 
     await saveToSheet(data);
 
@@ -93,13 +93,13 @@ describe("Sheets Service", () => {
       description: "coffee",
       category: "Food",
       date: "2026-04-12",
-    };
+    } as const;
 
     const error = new Error("API Error");
     mockLoadInfo.mockRejectedValueOnce(error);
     const consoleSpy = spyOn(console, "error").mockImplementation(() => {});
 
-    await expect(saveToSheet(data)).rejects.toThrow("API Error");
+    expect(saveToSheet(data)).rejects.toThrow("API Error");
     expect(consoleSpy).toHaveBeenCalledWith(
       "Error saving to Google Sheets:",
       error,
@@ -116,7 +116,7 @@ describe("Sheets Service", () => {
       description: "coffee",
       category: "Food",
       date: "2026-04-12",
-    };
-    await expect(saveToSheet(invalidData)).rejects.toThrow();
+    } as const;
+    expect(saveToSheet(invalidData)).rejects.toThrow();
   });
 });
