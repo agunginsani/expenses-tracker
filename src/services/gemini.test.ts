@@ -266,8 +266,10 @@ describe("Gemini Service", () => {
     });
 
     const { parseExpense } = await import("./gemini.js");
-    const result = await parseExpense("150k for lunch with client, put it in Social. date is 2026-04-14");
-    
+    const result = await parseExpense(
+      "150k for lunch with client, put it in Social. date is 2026-04-14",
+    );
+
     expect(result.amount).toBe(150000);
     expect(result.category).toBe("Social");
     expect(result.date).toBe("2026-04-14");
