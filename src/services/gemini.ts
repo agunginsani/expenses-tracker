@@ -21,6 +21,8 @@ export async function parseExpense(
 
   CATEGORY OVERRIDE RULE: If the user explicitly mentions one of the allowed categories in their text or user note (e.g., 'save it as Social', 'Transport: Taxi/Ojol'), you MUST use that category regardless of what the media content suggests.
 
+  CURRENCY DEFAULT RULE: If the currency is not explicitly found in the content, use 'IDR' as the default.
+
   Categories MUST be one of:
   - Food
   - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
