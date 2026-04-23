@@ -382,4 +382,26 @@ describe("Gemini Service", () => {
     );
     expect(result.items).toHaveLength(3);
   });
+
+  it("should handle itemized receipt with only names", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 10000,
+            currency: "IDR",
+            description: "Snacks",
+            category: "Food",
+            date: "2026-04-16",
+            items: [{ name: "Chips" }, { name: "Soda" }],
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("snacks");
+
+    expect(result.description).toBe("Snacks\n\nItems:\n- Chips\n- Soda");
+    expect(result.items).toHaveLength(2);
+  });
 });
