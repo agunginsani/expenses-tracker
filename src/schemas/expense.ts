@@ -25,7 +25,7 @@ export const ExpenseCategorySchema = z.enum([
 
 export const ExpenseSchema = z.object({
   amount: z.number().positive(),
-  currency: z.string().min(1),
+  currency: z.string().min(1).default("IDR"),
   description: z.string().min(1),
   category: ExpenseCategorySchema,
   date: z
