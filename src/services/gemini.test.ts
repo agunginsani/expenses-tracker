@@ -354,4 +354,32 @@ describe("Gemini Service", () => {
       },
     });
   });
+
+  it("should itemize receipt and append to description", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 150000,
+            currency: "IDR",
+            description: "Groceries",
+            category: "Shopping: Groceries",
+            date: "2026-04-16",
+            items: [
+              { name: "Milk", quantity: 2, price: 50000 },
+              { name: "Bread", price: 25000 },
+              { name: "Eggs", quantity: 1 },
+            ],
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("groceries");
+
+    expect(result.description).toBe(
+      "Groceries\n\nItems:\n- 2x Milk: 50000\n- Bread: 25000\n- 1x Eggs",
+    );
+    expect(result.items).toHaveLength(3);
+  });
 });

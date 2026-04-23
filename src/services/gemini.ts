@@ -15,7 +15,13 @@ export async function parseExpense(
   const { mimeType = "image/jpeg", caption } = options;
 
   const prompt = `Extract expense details from the following media (image/PDF) or text.
-  Return ONLY a JSON object with: amount (number), currency (string), description (string), category (string), date (YYYY-MM-DD).
+  Return ONLY a JSON object with: 
+  - amount (number)
+  - currency (string)
+  - description (string): a short summary of the overall purchase
+  - category (string)
+  - date (YYYY-MM-DD)
+  - items (array of objects): each object with name (string), quantity (number, optional), and price (number, optional).
 
   STRICT DATE RULE: If the transaction date is not found in the provided content, do NOT guess. Set "date" to null.
 
@@ -23,7 +29,7 @@ export async function parseExpense(
 
   CURRENCY DEFAULT RULE: If the currency is not explicitly found in the content, use 'IDR' as the default.
 
-  Categories MUST be one of:
+  Categories MUST be one of: 
   - Food
   - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
   - Shopping (or specific: Shopping: Groceries, Shopping: Fashion, Shopping: Gadgets)
@@ -59,7 +65,19 @@ export async function parseExpense(
       if (!jsonMatch) throw new Error("Failed to parse AI response");
 
       const rawData = JSON.parse(jsonMatch[0]);
-      return ExpenseSchema.parse(rawData);
+      
+      // 1. Validate first to get a typed object
+      const validatedData = ExpenseSchema.parse(rawData);
+      
+      // 2. Format items into description if they exist
+      if (validatedData.items?.length) {
+        const itemsList = validatedData.items
+          .map(item => `- ${item.quantity ? `${item.quantity}x ` : ""}${item.name}${item.price ? `: ${item.price}` : ""}`)
+          .join("\n");
+        validatedData.description = `${validatedData.description}\n\nItems:\n${itemsList}`;
+      }
+
+      return validatedData;
     } catch (error: unknown) {
       lastError = error;
       // If it's a ZodError, don't retry (it's a content issue, not a service issue)
