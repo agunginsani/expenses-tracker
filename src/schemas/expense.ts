@@ -23,6 +23,12 @@ export const ExpenseCategorySchema = z.enum([
   "Others",
 ]);
 
+const ItemSchema = z.object({
+  name: z.string(),
+  quantity: z.number().optional(),
+  price: z.number().optional(),
+});
+
 export const ExpenseSchema = z.object({
   amount: z.number().positive(),
   currency: z.string().min(1).default("IDR"),
@@ -31,6 +37,7 @@ export const ExpenseSchema = z.object({
   date: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Date must be in YYYY-MM-DD format"),
+  items: z.array(ItemSchema).optional(),
 });
 
 export type ExpenseData = z.infer<typeof ExpenseSchema>;
