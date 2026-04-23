@@ -230,6 +230,26 @@ describe("Gemini Service", () => {
     expect(lastCall).toContain("User note: Lunch with client");
   });
 
+  it("should default to IDR if currency is missing in AI response", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 50000,
+            // currency missing
+            description: "no currency mentioned",
+            category: "Others",
+            date: "2026-04-15",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("50000 for something");
+
+    expect(result.currency).toBe("IDR");
+  });
+
   it("should throw ZodError if date is null (Strict Date Rule)", async () => {
     mockGenerateContent.mockResolvedValue({
       response: {
