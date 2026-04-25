@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Implement a GitHub Action to trigger Vercel production deployments only when a `v*.*.*` tag is pushed.
+**Goal:** Implement a GitHub Action to trigger Vercel production deployments only when a GitHub **release** is published.
 
 **Architecture:** Create a GitHub workflow that uses the Vercel CLI for building and deploying, ensuring quality checks pass first.
 
@@ -25,9 +25,8 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  release:
+    types: [published]
 jobs:
   deploy:
     runs-on: ubuntu-latest
