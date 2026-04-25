@@ -13,48 +13,38 @@ bot.start((ctx) =>
 bot.command("today_expenses", async (ctx) => {
   try {
     await ctx.reply("⏳ Fetching today's expenses...");
-    
+
     const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
-    // Get YYYY-MM-DD in the target timezone
-    const formatter = new Intl.DateTimeFormat("en-CA", {
-      timeZone: tz,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit"
-    });
-    const parts = formatter.formatToParts(new Date());
-    const year = parts.find(p => p.type === 'year').value;
-    const month = parts.find(p => p.type === 'month').value;
-    const day = parts.find(p => p.type === 'day').value;
-    const today = `${year}-${month}-${day}`;
-    
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
+
     const { byCategory, grandTotals } = await getDailyExpenses(today);
-    
+
     if (Object.keys(grandTotals).length === 0) {
-      return ctx.reply(`📊 Expenses for Today (${today}):\n\nNo expenses recorded yet.`);
+      return ctx.reply(
+        `📊 Expenses for Today (${today}):\n\nNo expenses recorded yet.`,
+      );
     }
 
     let message = `📊 Expenses for Today (${today}):\n\n`;
-    
+
     for (const [category, totals] of Object.entries(byCategory)) {
       const categoryTotals = Object.entries(totals)
         .map(([currency, amount]) => `${amount.toLocaleString()} ${currency}`)
         .join(", ");
       message += `- ${category}: ${categoryTotals}\n`;
     }
-    
+
     message += "\nTotal:\n";
     const totalsString = Object.entries(grandTotals)
       .map(([currency, amount]) => `${amount.toLocaleString()} ${currency}`)
       .join(", ");
     message += totalsString;
-    
+
     await ctx.reply(message);
   } catch (err) {
     handleBotError(ctx, err);
   }
 });
-
 
 bot.on(message("text"), async (ctx) => {
   try {
@@ -78,9 +68,10 @@ bot.on(message("photo"), async (ctx) => {
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
+    const caption = "caption" in ctx.message ? ctx.message.caption : undefined;
     const data = await parseExpense(buffer, {
       mimeType: "image/jpeg",
-      caption: ctx.message.caption,
+      caption,
     });
     await saveToSheet(data);
     ctx.reply(
@@ -100,9 +91,10 @@ bot.on(message("document"), async (ctx) => {
     const response = await fetch(link.href);
     const buffer = Buffer.from(await response.arrayBuffer());
 
+    const caption = "caption" in ctx.message ? ctx.message.caption : undefined;
     const data = await parseExpense(buffer, {
       mimeType: "application/pdf",
-      caption: ctx.message.caption,
+      caption,
     });
     await saveToSheet(data);
     ctx.reply(
