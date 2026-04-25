@@ -14,11 +14,13 @@ export async function parseExpense(
 ) {
   const { mimeType = "image/jpeg", caption } = options;
 
+  const timezone = process.env.APP_TIMEZONE || "Asia/Jakarta";
   const today = new Date().toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: timezone,
   });
 
   const prompt = `Extract expense details from the following media (image/PDF) or text.
