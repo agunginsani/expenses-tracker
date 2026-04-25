@@ -76,14 +76,17 @@ export async function parseExpense(
       if (!jsonMatch) throw new Error("Failed to parse AI response");
 
       const rawData = JSON.parse(jsonMatch[0]);
-      
+
       // 1. Validate first to get a typed object
       const validatedData = ExpenseSchema.parse(rawData);
-      
+
       // 2. Format items into description if they exist
       if (validatedData.items?.length) {
         const itemsList = validatedData.items
-          .map(item => `- ${item.quantity ? `${item.quantity}x ` : ""}${item.name}${item.price ? `: ${item.price}` : ""}`)
+          .map(
+            (item) =>
+              `- ${item.quantity ? `${item.quantity}x ` : ""}${item.name}${item.price ? `: ${item.price}` : ""}`,
+          )
           .join("\n");
         validatedData.description = `${validatedData.description}\n\nItems:\n${itemsList}`;
       }
