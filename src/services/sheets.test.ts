@@ -115,7 +115,7 @@ describe("Sheets Service", () => {
       },
     ];
 
-    mockGetRows.mockResolvedValue(mockRows as any);
+    mockGetRows.mockResolvedValue(mockRows as unknown as never[]);
 
     const result = await getDailyExpenses("2026-04-25");
 
