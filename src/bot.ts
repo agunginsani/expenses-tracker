@@ -15,7 +15,9 @@ bot.command("today_expenses", async (ctx) => {
     await ctx.reply("⏳ Fetching today's expenses...");
 
     const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
-    const today = new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
+    const today = new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(
+      new Date(),
+    );
 
     const { byCategory, grandTotals } = await getDailyExpenses(today);
 
