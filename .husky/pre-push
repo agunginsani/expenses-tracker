@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-bun x tsc --noEmit && bun x biome check .
+bun test && bun x tsc --noEmit && bun x biome check .
