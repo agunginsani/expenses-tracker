@@ -14,7 +14,16 @@ export async function parseExpense(
 ) {
   const { mimeType = "image/jpeg", caption } = options;
 
+  const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   const prompt = `Extract expense details from the following media (image/PDF) or text.
+  Current date: ${today}
+
   Return ONLY a JSON object with: 
   - amount (number)
   - currency (string)
