@@ -2,13 +2,59 @@ import { type Context, Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 import { ZodError } from "zod";
 import { parseExpense } from "./services/gemini.js";
-import { saveToSheet } from "./services/sheets.js";
+import { getDailyExpenses, saveToSheet } from "./services/sheets.js";
 
 export const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 
 bot.start((ctx) =>
   ctx.reply("Welcome! Send me an expense text or a receipt photo."),
 );
+
+bot.command("today_expenses", async (ctx) => {
+  try {
+    await ctx.reply("⏳ Fetching today's expenses...");
+    
+    const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
+    // Get YYYY-MM-DD in the target timezone
+    const formatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone: tz,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    });
+    const parts = formatter.formatToParts(new Date());
+    const year = parts.find(p => p.type === 'year').value;
+    const month = parts.find(p => p.type === 'month').value;
+    const day = parts.find(p => p.type === 'day').value;
+    const today = `${year}-${month}-${day}`;
+    
+    const { byCategory, grandTotals } = await getDailyExpenses(today);
+    
+    if (Object.keys(grandTotals).length === 0) {
+      return ctx.reply(`📊 Expenses for Today (${today}):\n\nNo expenses recorded yet.`);
+    }
+
+    let message = `📊 Expenses for Today (${today}):\n\n`;
+    
+    for (const [category, totals] of Object.entries(byCategory)) {
+      const categoryTotals = Object.entries(totals)
+        .map(([currency, amount]) => `${amount.toLocaleString()} ${currency}`)
+        .join(", ");
+      message += `- ${category}: ${categoryTotals}\n`;
+    }
+    
+    message += "\nTotal:\n";
+    const totalsString = Object.entries(grandTotals)
+      .map(([currency, amount]) => `${amount.toLocaleString()} ${currency}`)
+      .join(", ");
+    message += totalsString;
+    
+    await ctx.reply(message);
+  } catch (err) {
+    handleBotError(ctx, err);
+  }
+});
+
 
 bot.on(message("text"), async (ctx) => {
   try {

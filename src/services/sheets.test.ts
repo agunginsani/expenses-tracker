@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, mock, spyOn } from "bun:test";
 
 // Define the mock outside to make it accessible to mock.module
 const mockAddRow = mock(() => Promise.resolve());
+const mockGetRows = mock(() => Promise.resolve([]));
 const mockLoadInfo = mock(() => Promise.resolve());
 
 // Mock google-spreadsheet
@@ -13,6 +14,7 @@ mock.module("google-spreadsheet", () => {
         return [
           {
             addRow: mockAddRow,
+            getRows: mockGetRows,
           },
         ];
       }
@@ -30,6 +32,7 @@ mock.module("google-auth-library", () => {
 describe("Sheets Service", () => {
   beforeEach(() => {
     mockAddRow.mockClear();
+    mockGetRows.mockClear();
     mockLoadInfo.mockClear();
   });
 
@@ -58,6 +61,80 @@ describe("Sheets Service", () => {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
+    });
+  });
+
+  it("should getDailyExpenses and aggregate correctly", async () => {
+    const { getDailyExpenses } = await import("./sheets.js");
+
+    const mockRows = [
+      {
+        toObject: () => ({
+          Date: "2026-04-25",
+          Description: "Lunch",
+          Category: "Food",
+          Amount: "50000",
+          Currency: "IDR",
+        }),
+      },
+      {
+        toObject: () => ({
+          Date: "2026-04-25",
+          Description: "Dinner",
+          Category: "Food",
+          Amount: "75000",
+          Currency: "IDR",
+        }),
+      },
+      {
+        toObject: () => ({
+          Date: "2026-04-25",
+          Description: "Taxi",
+          Category: "Transport: Taxi/Ojol",
+          Amount: "25000",
+          Currency: "IDR",
+        }),
+      },
+      {
+        toObject: () => ({
+          Date: "2026-04-24", // Different date
+          Description: "Coffee",
+          Category: "Food",
+          Amount: "30000",
+          Currency: "IDR",
+        }),
+      },
+      {
+        toObject: () => ({
+          Date: "2026-04-25",
+          Description: "Book",
+          Category: "Shopping",
+          Amount: "15",
+          Currency: "USD",
+        }),
+      },
+    ];
+
+    mockGetRows.mockResolvedValue(mockRows);
+
+    const result = await getDailyExpenses("2026-04-25");
+
+    expect(result).toEqual({
+      byCategory: {
+        Food: {
+          IDR: 125000,
+        },
+        "Transport: Taxi/Ojol": {
+          IDR: 25000,
+        },
+        Shopping: {
+          USD: 15,
+        },
+      },
+      grandTotals: {
+        IDR: 150000,
+        USD: 15,
+      },
     });
   });
 
