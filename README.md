@@ -17,7 +17,7 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun start
 ```
 
 ## Deployment (Vercel)
@@ -33,5 +33,3 @@ bun run index.ts
    ```bash
    TELEGRAM_BOT_TOKEN=your_token bun scripts/set-webhook.ts https://your-project.vercel.app
    ```
-
-This project was created using `bun init` in bun v1.1.20. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
