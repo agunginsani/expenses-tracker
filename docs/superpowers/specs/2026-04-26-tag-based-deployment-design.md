@@ -4,7 +4,7 @@ Transition the project from automatic branch-based deployments to explicit versi
 
 ## Goals
 - Disable automatic deployments on pushes to the `main` branch.
-- Trigger production deployments only when a tag matching `v*.*.*` (e.g., `v1.0.0`) is pushed.
+- Trigger production deployments only when a GitHub **release** is published.
 - Ensure all quality gates (tests, types) pass before deployment starts.
 
 ## Architecture
@@ -14,9 +14,8 @@ A new workflow will handle the deployment logic:
 - **Trigger**: 
   ```yaml
   on:
-    push:
-      tags:
-        - 'v*.*.*'
+    release:
+      types: [published]
   ```
 - **Steps**:
     1. **Setup**: Checkout repository, install Bun.
