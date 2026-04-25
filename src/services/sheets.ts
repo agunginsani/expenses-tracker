@@ -96,3 +96,37 @@ export async function getDailyExpenses(date: string) {
     throw error;
   }
 }
+
+export async function getExpensesByCategory(category: string) {
+  try {
+    const sheet = await getGoogleSheet();
+    const rows = await sheet.getRows();
+
+    const expenses: ExpenseData[] = [];
+
+    for (const row of rows) {
+      const obj = row.toObject();
+
+      try {
+        const data = ExpenseSchema.parse({
+          amount: Number(obj.Amount),
+          currency: obj.Currency,
+          description: obj.Description,
+          category: obj.Category,
+          date: obj.Date,
+        });
+
+        if (data.category === category) {
+          expenses.push(data);
+        }
+      } catch (e) {
+        console.warn(`Skipping invalid row in sheet:`, obj, e);
+      }
+    }
+
+    return expenses;
+  } catch (error) {
+    console.error("Error fetching from Google Sheets:", error);
+    throw error;
+  }
+}
