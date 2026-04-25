@@ -1,5 +1,13 @@
 # expenses-tracker
 
+## Tech Stack
+- **Runtime:** [Bun](https://bun.sh/)
+- **Language:** TypeScript
+- **Framework:** [Telegraf](https://telegraf.js.org/) (Telegram Bot API)
+- **Database:** Google Sheets
+- **AI:** [Google Gemini](https://ai.google.dev/)
+- **Linting/Formatting:** [Biome](https://biomejs.dev/)
+
 To install dependencies:
 
 ```bash
