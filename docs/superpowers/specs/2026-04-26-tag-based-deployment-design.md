@@ -26,8 +26,11 @@ A new workflow will handle the deployment logic:
 ### 2. Vercel Configuration
 To prevent Vercel's automatic integration from deploying `main`, the user must:
 1. Go to **Vercel Dashboard > Project Settings > Git**.
-2. Under **Ignored Build Step**, add a command or disable the "Production Branch" deployment behavior.
-   - *Recommendation*: Use `git-branch-check.sh` logic to only allow builds if the environment is production AND triggered by a tag.
+2. Under **Ignored Build Step**, select **Command** and enter:
+   ```bash
+   bash scripts/vercel-ignore-build.sh
+   ```
+   This ensures that branch-based pushes to `main` are ignored, while GitHub Action deployments (which use the CLI) bypass this check.
 
 ### 3. Required Secrets (GitHub)
 The following secrets must be added to the GitHub repository:
