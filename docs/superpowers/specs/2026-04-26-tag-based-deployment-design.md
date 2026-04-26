@@ -24,13 +24,11 @@ A new workflow will handle the deployment logic:
     4. **Deploy**: Use `vercel deploy --prebuilt --prod` to push the build to Vercel.
 
 ### 2. Vercel Configuration
-To prevent Vercel's automatic integration from deploying `main`, the user must:
-1. Go to **Vercel Dashboard > Project Settings > Git**.
-2. Under **Ignored Build Step**, select **Command** and enter:
-   ```bash
-   bash scripts/vercel-ignore-build.sh
-   ```
-   This ensures that branch-based pushes to `main` are ignored, while GitHub Action deployments (which use the CLI) bypass this check.
+To prevent Vercel's automatic integration from deploying `main`, the `vercel.json` includes an `ignoreCommand`:
+```json
+"ignoreCommand": "bash scripts/vercel-ignore-build.sh"
+```
+This script ensures that branch-based pushes to `main` are ignored, while GitHub Action deployments (which use `vercel build` and `vercel deploy --prebuilt`) effectively bypass the build-time ignore check on Vercel's servers.
 
 ### 3. Required Secrets (GitHub)
 The following secrets must be added to the GitHub repository:
