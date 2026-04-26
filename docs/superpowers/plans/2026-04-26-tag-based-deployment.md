@@ -88,18 +88,20 @@ exit 1;
 - [ ] **Step 2: Make script executable**
 Run: `chmod +x scripts/vercel-ignore-build.sh`
 
-- [ ] **Step 3: Instructions for Vercel Dashboard**
-To prevent automatic deployments, you must manually set the ignore command in Vercel:
-1. Go to **Vercel Dashboard > Project Settings > Git**.
-2. Scroll to **Ignored Build Step**.
-3. Select **Command** from the dropdown.
-4. Enter: `bash scripts/vercel-ignore-build.sh`
-5. Click **Save**.
+- [ ] **Step 3: Configure vercel.json**
+Add the `ignoreCommand` to `vercel.json`:
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "bunVersion": "1.x",
+  "ignoreCommand": "bash scripts/vercel-ignore-build.sh"
+}
+```
 
 - [ ] **Step 4: Commit cleanup**
 ```bash
 git add vercel.json scripts/vercel-ignore-build.sh
-git commit -m "chore: move build filter to script and cleanup vercel.json"
+git commit -m "chore: configure ignoreCommand in vercel.json and script"
 ```
 
 ---
