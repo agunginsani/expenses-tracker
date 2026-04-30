@@ -1,6 +1,7 @@
 import { type Context, Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
 import { ZodError } from "zod";
+import { parseDateString } from "./services/date.js";
 import { parseExpense } from "./services/gemini.js";
 import { getDailyExpenses, saveToSheet } from "./services/sheets.js";
 
@@ -10,24 +11,28 @@ bot.start((ctx) =>
   ctx.reply("Welcome! Send me an expense text or a receipt photo."),
 );
 
-bot.command("today_expenses", async (ctx) => {
+bot.command("expenses", async (ctx) => {
   try {
-    await ctx.reply("⏳ Fetching today's expenses...");
+    const arg = ctx.message.text.split(" ").slice(1).join(" ");
+    const dateString = parseDateString(arg);
 
-    const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
-    const today = new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(
-      new Date(),
-    );
-
-    const { byCategory, grandTotals } = await getDailyExpenses(today);
-
-    if (Object.keys(grandTotals).length === 0) {
+    if (!dateString) {
       return ctx.reply(
-        `📊 Expenses for Today (${today}):\n\nNo expenses recorded yet.`,
+        "❌ I couldn't understand that date. Try 'yesterday', '30 April', or '2026-04-12'.",
       );
     }
 
-    let message = `📊 Expenses for Today (${today}):\n\n`;
+    await ctx.reply(`⏳ Fetching expenses for ${dateString}...`);
+
+    const { byCategory, grandTotals } = await getDailyExpenses(dateString);
+
+    if (Object.keys(grandTotals).length === 0) {
+      return ctx.reply(
+        `📊 Expenses for ${dateString}:\n\nNo expenses recorded for this date.`,
+      );
+    }
+
+    let message = `📊 Expenses for ${dateString}:\n\n`;
 
     for (const [category, totals] of Object.entries(byCategory)) {
       const categoryTotals = Object.entries(totals)

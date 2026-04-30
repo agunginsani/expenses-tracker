@@ -8,7 +8,7 @@ import * as chrono from "chrono-node";
 export function parseDateString(text: string): string | null {
   const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
   const now = new Date();
-  
+
   // Normalize "today" or empty string
   const input = text.trim().toLowerCase();
   if (!input || input === "today") {
@@ -17,7 +17,7 @@ export function parseDateString(text: string): string | null {
 
   // Parse relative to now in the specified timezone
   const parsedDate = chrono.parseDate(input, now, { forwardDate: false });
-  
+
   if (!parsedDate) return null;
 
   return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(parsedDate);
