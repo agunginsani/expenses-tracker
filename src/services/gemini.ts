@@ -41,7 +41,7 @@ export async function parseExpense(
   CURRENCY DEFAULT RULE: If the currency is not explicitly found in the content, use 'IDR' as the default.
 
   Categories MUST be one of: 
-  - Food
+  - Food (or specific: Food: Restaurant, Food: Cafe)
   - Transport (or specific: Transport: Gasoline, Transport: Parking fee, Transport: Public transport, Transport: Taxi/Ojol, Transport: Vehicle maintenance)
   - Shopping (or specific: Shopping: Groceries, Shopping: Fashion, Shopping: Gadgets)
   - Bills (or specific: Bills: Electricity, Bills: Water, Bills: Internet, Bills: Mobile Data, Bills: Rent, Bills: Subscription)
