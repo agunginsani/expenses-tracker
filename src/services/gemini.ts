@@ -36,6 +36,8 @@ export async function parseExpense(
 
   STRICT DATE RULE: If the transaction date is not found in the provided content, do NOT guess. Set "date" to null.
 
+  DISCOUNT RULE: If the transaction includes any discounts, vouchers, or promos, include them as items in the "items" array. Use the name found in the content (e.g., "Voucher", "Promo", "Disc") and set the "price" as a negative number.
+
   CATEGORY OVERRIDE RULE: If the user explicitly mentions one of the allowed categories in their text or user note (e.g., 'save it as Social', 'Transport: Taxi/Ojol'), you MUST use that category regardless of what the media content suggests.
 
   CURRENCY DEFAULT RULE: If the currency is not explicitly found in the content, use 'IDR' as the default.
