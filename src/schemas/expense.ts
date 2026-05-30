@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const ExpenseCategorySchema = z.enum([
   "Food",
+  "Food: Restaurant",
+  "Food: Cafe",
   "Transport",
   "Transport: Gasoline",
   "Transport: Parking fee",
