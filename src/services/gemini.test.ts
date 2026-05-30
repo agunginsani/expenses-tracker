@@ -442,4 +442,30 @@ describe("Gemini Service", () => {
     const result = await parseExpense("Coffee at Starbucks 50k");
     expect(result.category).toBe("Food: Cafe");
   });
+
+  it("should include discounts as items with negative prices", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 80000,
+            currency: "IDR",
+            description: "Lunch at Restaurant",
+            category: "Food: Restaurant",
+            date: "2026-04-12",
+            items: [
+              { name: "Pasta", quantity: 1, price: 100000 },
+              { name: "Promo", price: -20000 },
+            ],
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("Lunch with promo");
+    expect(result.description).toContain("Items:");
+    expect(result.description).toContain("- 1x Pasta: 100000");
+    expect(result.description).toContain("- Promo: -20000");
+    expect(result.amount).toBe(80000);
+  });
 });
