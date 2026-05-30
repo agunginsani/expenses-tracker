@@ -404,4 +404,42 @@ describe("Gemini Service", () => {
     expect(result.description).toBe("Snacks\n\nItems:\n- Chips\n- Soda");
     expect(result.items).toHaveLength(2);
   });
+
+  it("should categorize restaurant entries as Food: Restaurant", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 450000,
+            currency: "IDR",
+            description: "Dinner at Sushi Tei",
+            category: "Food: Restaurant",
+            date: "2026-04-12",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("Dinner at Sushi Tei 450k");
+    expect(result.category).toBe("Food: Restaurant");
+  });
+
+  it("should categorize cafe entries as Food: Cafe", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            amount: 50000,
+            currency: "IDR",
+            description: "Coffee at Starbucks",
+            category: "Food: Cafe",
+            date: "2026-04-12",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("Coffee at Starbucks 50k");
+    expect(result.category).toBe("Food: Cafe");
+  });
 });
