@@ -6,7 +6,7 @@
 
 **Architecture:** A Bun.js TypeScript application using Telegraf for Telegram interaction, the Google Generative AI SDK for Gemini integration, and google-spreadsheet for database operations.
 
-**Tech Stack:** Bun.js, TypeScript, Telegraf, @google/generative-ai, google-spreadsheet, axios.
+**Tech Stack:** Bun.js, TypeScript, Telegraf, @google/generative-ai, google-spreadsheet.
 
 ---
 
@@ -17,7 +17,7 @@
 
 - [ ] **Step 1: Initialize Bun and install dependencies**
 
-Run: `bun init -y && bun add telegraf @google/generative-ai google-spreadsheet axios && bun add -d @types/bun`
+Run: `bun init -y && bun add telegraf @google/generative-ai google-spreadsheet && bun add -d @types/bun`
 
 - [ ] **Step 2: Configure TypeScript**
 
@@ -217,7 +217,6 @@ import { Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
 import { parseExpense } from './services/gemini.js';
 import { saveToSheet } from './services/sheets.js';
-import axios from 'axios';
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || '');
 
@@ -238,8 +237,8 @@ bot.on(message('photo'), async (ctx) => {
   try {
     const fileId = ctx.message.photo[ctx.message.photo.length - 1].file_id;
     const link = await ctx.telegram.getFileLink(fileId);
-    const response = await axios.get(link.href, { responseType: 'arraybuffer' });
-    const buffer = Buffer.from(response.data);
+    const response = await fetch(link.href);
+    const buffer = Buffer.from(await response.arrayBuffer());
     
     const data = await parseExpense(buffer, true);
     await saveToSheet(data);
