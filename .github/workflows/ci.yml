@@ -26,4 +26,12 @@ jobs:
         run: bun x tsc --noEmit
 
       - name: Run Tests
-        run: bun test
+        run: bun run test
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage/lcov.info
+          fail_ci_if_error: true
+          skip_validation: true
+          token: ${{ secrets.CODECOV_TOKEN }}
