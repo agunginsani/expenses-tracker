@@ -52,6 +52,7 @@ describe("Sheets Service", () => {
     process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL = "test@example.com";
     process.env.GOOGLE_PRIVATE_KEY = "test-key";
     process.env.GOOGLE_SHEET_ID = "test-id";
+    process.env.APP_TIMEZONE = "Asia/Jakarta";
 
     const { saveToSheet } = await import("./sheets.js");
 
@@ -72,7 +73,7 @@ describe("Sheets Service", () => {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
-      "Created at": "2026-06-07T14:30:05.123Z",
+      "Created at": "2026-06-07 21:30:05",
     });
   });
 
@@ -170,7 +171,7 @@ describe("Sheets Service", () => {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
-      "Created at": "2026-06-07T14:30:05.123Z",
+      "Created at": "2026-06-07 21:30:05",
     });
   });
 
