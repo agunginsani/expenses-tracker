@@ -30,6 +30,7 @@ export async function saveToSheet(data: ExpenseData) {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
+      "Created at": new Date().toISOString(),
     };
 
     try {
@@ -44,6 +45,7 @@ export async function saveToSheet(data: ExpenseData) {
           "Category",
           "Amount",
           "Currency",
+          "Created at",
         ]);
         await sheet.addRow(rowData);
       } else {
