@@ -1,4 +1,12 @@
-import { beforeEach, describe, expect, it, mock, spyOn } from "bun:test";
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  mock,
+  setSystemTime,
+  spyOn,
+} from "bun:test";
 
 // Define the mock outside to make it accessible to mock.module
 const mockAddRow = mock(() => Promise.resolve());
@@ -34,6 +42,9 @@ describe("Sheets Service", () => {
     mockAddRow.mockClear();
     mockGetRows.mockClear();
     mockLoadInfo.mockClear();
+
+    // Mock Date for consistency
+    setSystemTime(new Date("2026-06-07T14:30:05.123Z"));
   });
 
   it("should call saveToSheet with correct data", async () => {
@@ -61,6 +72,7 @@ describe("Sheets Service", () => {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
+      "Created at": "2026-06-07T14:30:05.123Z",
     });
   });
 
@@ -158,6 +170,7 @@ describe("Sheets Service", () => {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
+      "Created at": "2026-06-07T14:30:05.123Z",
     });
   });
 
