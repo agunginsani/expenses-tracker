@@ -34,3 +34,4 @@ jobs:
           files: ./coverage/lcov.info
           fail_ci_if_error: true
           skip_validation: true
+          token: ${{ secrets.CODECOV_TOKEN }}
