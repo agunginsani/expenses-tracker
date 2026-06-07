@@ -22,3 +22,25 @@ export function parseDateString(text: string): string | null {
 
   return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(parsedDate);
 }
+
+/**
+ * Formats a Date object into YYYY-MM-DD HH:mm:ss in the specified timezone.
+ */
+export function formatTimestamp(date: Date): string {
+  const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: tz,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  });
+
+  const parts = formatter.formatToParts(date);
+  const findPart = (type: string) => parts.find((p) => p.type === type)?.value;
+
+  return `${findPart("year")}-${findPart("month")}-${findPart("day")} ${findPart("hour")}:${findPart("minute")}:${findPart("second")}`;
+}

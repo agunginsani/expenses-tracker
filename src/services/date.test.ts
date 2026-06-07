@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { parseDateString } from "./date.js";
+import { formatTimestamp, parseDateString } from "./date.js";
 
 describe("parseDateString", () => {
   const tz = process.env.APP_TIMEZONE || "Asia/Jakarta";
@@ -34,5 +34,14 @@ describe("parseDateString", () => {
 
   test("returns null for invalid dates", () => {
     expect(parseDateString("not a date")).toBeNull();
+  });
+});
+
+describe("formatTimestamp", () => {
+  test("formats date correctly for Jakarta timezone", () => {
+    process.env.APP_TIMEZONE = "Asia/Jakarta";
+    const date = new Date("2026-06-07T14:30:05.000Z");
+    // UTC 14:30 is 21:30 in Jakarta (+7)
+    expect(formatTimestamp(date)).toBe("2026-06-07 21:30:05");
   });
 });

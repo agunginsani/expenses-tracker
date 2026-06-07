@@ -1,6 +1,7 @@
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 import { type ExpenseData, ExpenseSchema } from "../schemas/expense.js";
+import { formatTimestamp } from "./date.js";
 
 async function getGoogleSheet() {
   const serviceAccountAuth = new JWT({
@@ -30,7 +31,7 @@ export async function saveToSheet(data: ExpenseData) {
       Category: data.category,
       Amount: data.amount,
       Currency: data.currency,
-      "Created at": new Date().toISOString(),
+      "Created at": formatTimestamp(new Date()),
     };
 
     try {
