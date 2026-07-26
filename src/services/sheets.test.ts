@@ -12,6 +12,19 @@ import {
 const mockAddRow = mock(() => Promise.resolve());
 const mockGetRows = mock(() => Promise.resolve([]));
 const mockLoadInfo = mock(() => Promise.resolve());
+const mockLoadHeaderRow = mock(() => Promise.resolve());
+const mockSetHeaderRow = mock(() => Promise.resolve());
+const mockResize = mock(() => Promise.resolve());
+let mockColumnCount = 26;
+let mockRowCount = 1_000;
+let mockHeaderValues = [
+  "Date",
+  "Description",
+  "Category",
+  "Amount",
+  "Currency",
+  "Created at",
+];
 
 // Mock google-spreadsheet
 mock.module("google-spreadsheet", () => {
@@ -23,6 +36,18 @@ mock.module("google-spreadsheet", () => {
           {
             addRow: mockAddRow,
             getRows: mockGetRows,
+            loadHeaderRow: mockLoadHeaderRow,
+            setHeaderRow: mockSetHeaderRow,
+            resize: mockResize,
+            get columnCount() {
+              return mockColumnCount;
+            },
+            get rowCount() {
+              return mockRowCount;
+            },
+            get headerValues() {
+              return mockHeaderValues;
+            },
           },
         ];
       }
@@ -42,6 +67,19 @@ describe("Sheets Service", () => {
     mockAddRow.mockClear();
     mockGetRows.mockClear();
     mockLoadInfo.mockClear();
+    mockLoadHeaderRow.mockClear();
+    mockSetHeaderRow.mockClear();
+    mockResize.mockClear();
+    mockColumnCount = 26;
+    mockRowCount = 1_000;
+    mockHeaderValues = [
+      "Date",
+      "Description",
+      "Category",
+      "Amount",
+      "Currency",
+      "Created at",
+    ];
 
     // Mock Date for consistency
     setSystemTime(new Date("2026-06-07T14:30:05.123Z"));
@@ -68,6 +106,7 @@ describe("Sheets Service", () => {
 
     expect(mockLoadInfo).toHaveBeenCalled();
     expect(mockAddRow).toHaveBeenCalledWith({
+      ID: "",
       Date: data.date,
       Description: data.description,
       Category: data.category,
@@ -75,6 +114,152 @@ describe("Sheets Service", () => {
       Currency: data.currency,
       "Created at": "2026-06-07 21:30:05",
     });
+  });
+
+  it("should save expense with explicit ID and detect duplicates", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+
+    const expenseWithId = {
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    } as const;
+
+    mockGetRows.mockResolvedValueOnce([] as never[]);
+    const res1 = await saveToSheet(expenseWithId);
+
+    expect(res1).toEqual({ saved: true });
+    expect(mockAddRow).toHaveBeenCalledWith({
+      ID: "INV-1001",
+      Date: expenseWithId.date,
+      Description: expenseWithId.description,
+      Category: expenseWithId.category,
+      Amount: expenseWithId.amount,
+      Currency: expenseWithId.currency,
+      "Created at": "2026-06-07 21:30:05",
+    });
+
+    // Reset mock add row call count
+    mockAddRow.mockClear();
+
+    // Mock existing row with same ID
+    mockGetRows.mockResolvedValueOnce([
+      {
+        get: (col: string) => (col === "ID" ? "INV-1001" : undefined),
+      },
+    ] as unknown as never[]);
+
+    const res2 = await saveToSheet(expenseWithId);
+    expect(res2).toEqual({
+      saved: false,
+      isDuplicate: true,
+      existingId: "INV-1001",
+    });
+    expect(mockAddRow).not.toHaveBeenCalled();
+  });
+
+  it("should add the ID header to an existing sheet before saving", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+
+    await saveToSheet({
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    });
+
+    expect(mockSetHeaderRow).toHaveBeenCalledWith([
+      "Date",
+      "Description",
+      "Category",
+      "Amount",
+      "Currency",
+      "Created at",
+      "ID",
+    ]);
+  });
+
+  it("should resize a full legacy sheet before adding the ID header", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+    mockColumnCount = 6;
+
+    await saveToSheet({
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    });
+
+    expect(mockResize).toHaveBeenCalledWith({
+      rowCount: 1_000,
+      columnCount: 7,
+    });
+  });
+
+  it("should initialize an all-blank sheet before saving", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+    const blankHeaderError = new Error("All your header cells are blank");
+    mockLoadHeaderRow.mockRejectedValueOnce(blankHeaderError);
+    mockAddRow.mockRejectedValueOnce(blankHeaderError);
+
+    await saveToSheet({
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    });
+
+    expect(mockSetHeaderRow).toHaveBeenCalledWith([
+      "ID",
+      "Date",
+      "Description",
+      "Category",
+      "Amount",
+      "Currency",
+      "Created at",
+    ]);
+    expect(mockAddRow).toHaveBeenCalledTimes(2);
+  });
+
+  it("should resize an all-blank six-column sheet before initializing headers", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+    const blankHeaderError = new Error("All your header cells are blank");
+    mockColumnCount = 6;
+    mockLoadHeaderRow.mockRejectedValueOnce(blankHeaderError);
+    mockAddRow.mockRejectedValueOnce(blankHeaderError);
+
+    await saveToSheet({
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    });
+
+    expect(mockResize).toHaveBeenCalledWith({
+      rowCount: 1_000,
+      columnCount: 7,
+    });
+    expect(mockSetHeaderRow).toHaveBeenCalledWith([
+      "ID",
+      "Date",
+      "Description",
+      "Category",
+      "Amount",
+      "Currency",
+      "Created at",
+    ]);
+    expect(mockAddRow).toHaveBeenCalledTimes(2);
   });
 
   it("should getDailyExpenses and aggregate correctly", async () => {
@@ -166,6 +351,7 @@ describe("Sheets Service", () => {
 
     expect(mockLoadInfo).toHaveBeenCalled();
     expect(mockAddRow).toHaveBeenCalledWith({
+      ID: "",
       Date: data.date,
       Description: data.description,
       Category: data.category,
