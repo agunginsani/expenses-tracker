@@ -230,6 +230,38 @@ describe("Sheets Service", () => {
     expect(mockAddRow).toHaveBeenCalledTimes(2);
   });
 
+  it("should resize an all-blank six-column sheet before initializing headers", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+    const blankHeaderError = new Error("All your header cells are blank");
+    mockColumnCount = 6;
+    mockLoadHeaderRow.mockRejectedValueOnce(blankHeaderError);
+    mockAddRow.mockRejectedValueOnce(blankHeaderError);
+
+    await saveToSheet({
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    });
+
+    expect(mockResize).toHaveBeenCalledWith({
+      rowCount: 1_000,
+      columnCount: 7,
+    });
+    expect(mockSetHeaderRow).toHaveBeenCalledWith([
+      "ID",
+      "Date",
+      "Description",
+      "Category",
+      "Amount",
+      "Currency",
+      "Created at",
+    ]);
+    expect(mockAddRow).toHaveBeenCalledTimes(2);
+  });
+
   it("should getDailyExpenses and aggregate correctly", async () => {
     const { getDailyExpenses } = await import("./sheets.js");
 
