@@ -9,3 +9,8 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    # Vercel's hosted builder currently depends on TypeScript's legacy compiler
+    # API, which TypeScript 7's native compiler no longer exposes.
+    ignore:
+      - dependency-name: "typescript"
+        versions: [">= 7.0.0"]
