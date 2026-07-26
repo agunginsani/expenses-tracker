@@ -57,7 +57,12 @@ bot.on(message("text"), async (ctx) => {
   try {
     await ctx.reply("⏳ Processing your expense...");
     const data = await parseExpense(ctx.message.text);
-    await saveToSheet(data);
+    const result = await saveToSheet(data);
+    if (result?.isDuplicate) {
+      return ctx.reply(
+        `⚠️ Duplicate expense detected (ID: ${data.id}). Skipping save.`,
+      );
+    }
     ctx.reply(
       `✅ Saved: ${data.amount} ${data.currency} for ${data.description} (${data.category})`,
     );
@@ -80,7 +85,12 @@ bot.on(message("photo"), async (ctx) => {
       mimeType: "image/jpeg",
       caption,
     });
-    await saveToSheet(data);
+    const result = await saveToSheet(data);
+    if (result?.isDuplicate) {
+      return ctx.reply(
+        `⚠️ Duplicate expense detected (ID: ${data.id}). Skipping save.`,
+      );
+    }
     ctx.reply(
       `📸 Receipt saved: ${data.amount} ${data.currency} at ${data.description}`,
     );
@@ -103,7 +113,12 @@ bot.on(message("document"), async (ctx) => {
       mimeType: "application/pdf",
       caption,
     });
-    await saveToSheet(data);
+    const result = await saveToSheet(data);
+    if (result?.isDuplicate) {
+      return ctx.reply(
+        `⚠️ Duplicate expense detected (ID: ${data.id}). Skipping save.`,
+      );
+    }
     ctx.reply(
       `✅ PDF Saved: ${data.amount} ${data.currency} for ${data.description}`,
     );

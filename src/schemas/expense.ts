@@ -32,6 +32,7 @@ const ItemSchema = z.object({
 });
 
 export const ExpenseSchema = z.object({
+  id: z.string().optional(),
   amount: z.number().positive(),
   currency: z.string().min(1).default("IDR"),
   description: z.string().min(1),

@@ -27,6 +27,7 @@ export async function parseExpense(
   Current date: ${today}
 
   Return ONLY a JSON object with: 
+  - id (string, optional): receipt number, invoice number, order ID, or transaction ID if explicitly found in content. Omit or set to null if not present.
   - amount (number)
   - currency (string)
   - description (string): a short summary of the overall purchase
@@ -78,6 +79,7 @@ export async function parseExpense(
       if (!jsonMatch) throw new Error("Failed to parse AI response");
 
       const rawData = JSON.parse(jsonMatch[0]);
+      if (rawData.id === null) delete rawData.id;
 
       // 1. Validate first to get a typed object
       const validatedData = ExpenseSchema.parse(rawData);
