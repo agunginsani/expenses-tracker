@@ -489,4 +489,25 @@ describe("Gemini Service", () => {
     expect(result.id).toBe("INV-9988");
     expect(result.amount).toBe(120000);
   });
+
+  it("should treat a null expense id as absent", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            id: null,
+            amount: 120000,
+            currency: "IDR",
+            description: "Internet Bill",
+            category: "Bills: Internet",
+            date: "2026-04-12",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("Internet bill");
+
+    expect(result.id).toBeUndefined();
+  });
 });

@@ -3,6 +3,16 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
 import { type ExpenseData, ExpenseSchema } from "../schemas/expense.js";
 import { formatTimestamp } from "./date.js";
 
+const sheetHeaders = [
+  "ID",
+  "Date",
+  "Description",
+  "Category",
+  "Amount",
+  "Currency",
+  "Created at",
+];
+
 async function getGoogleSheet() {
   const serviceAccountAuth = new JWT({
     email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -23,9 +33,40 @@ export async function saveToSheet(data: ExpenseData) {
   ExpenseSchema.parse(data);
 
   try {
-    const sheet = await getGoogleSheet();
+    let sheet = await getGoogleSheet();
 
-    if (data.id) {
+    let hasHeader = false;
+    try {
+      await sheet.loadHeaderRow();
+      hasHeader = true;
+      if (!sheet.headerValues.includes("ID")) {
+        const headers = [...sheet.headerValues, "ID"];
+        if (headers.length > sheet.columnCount) {
+          await sheet.resize({
+            rowCount: sheet.rowCount,
+            columnCount: headers.length,
+          });
+          sheet = await getGoogleSheet();
+          await sheet.loadHeaderRow();
+        }
+        await sheet.setHeaderRow([...sheet.headerValues, "ID"]);
+      }
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      const isMissingHeader =
+        message.includes("No values in the header row") ||
+        message.includes("All your header cells are blank");
+      if (!isMissingHeader) throw e;
+      if (sheetHeaders.length > sheet.columnCount) {
+        await sheet.resize({
+          rowCount: sheet.rowCount,
+          columnCount: sheetHeaders.length,
+        });
+        sheet = await getGoogleSheet();
+      }
+    }
+
+    if (data.id && hasHeader) {
       const rows = await sheet.getRows();
       const existing = rows.find((row) => row.get("ID") === data.id);
       if (existing) {
@@ -47,17 +88,12 @@ export async function saveToSheet(data: ExpenseData) {
       await sheet.addRow(rowData);
     } catch (e: unknown) {
       const message = e instanceof Error ? e.message : String(e);
-      if (message.includes("No values in the header row")) {
+      if (
+        message.includes("No values in the header row") ||
+        message.includes("All your header cells are blank")
+      ) {
         console.log("Empty sheet detected. Initializing headers...");
-        await sheet.setHeaderRow([
-          "ID",
-          "Date",
-          "Description",
-          "Category",
-          "Amount",
-          "Currency",
-          "Created at",
-        ]);
+        await sheet.setHeaderRow(sheetHeaders);
         await sheet.addRow(rowData);
       } else {
         throw e;

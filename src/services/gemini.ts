@@ -79,6 +79,7 @@ export async function parseExpense(
       if (!jsonMatch) throw new Error("Failed to parse AI response");
 
       const rawData = JSON.parse(jsonMatch[0]);
+      if (rawData.id === null) delete rawData.id;
 
       // 1. Validate first to get a typed object
       const validatedData = ExpenseSchema.parse(rawData);
