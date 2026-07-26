@@ -27,6 +27,7 @@ export async function parseExpense(
   Current date: ${today}
 
   Return ONLY a JSON object with: 
+  - id (string, optional): receipt number, invoice number, order ID, or transaction ID if explicitly found in content. Omit or set to null if not present.
   - amount (number)
   - currency (string)
   - description (string): a short summary of the overall purchase

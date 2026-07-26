@@ -468,4 +468,25 @@ describe("Gemini Service", () => {
     expect(result.description).toContain("- Promo: -20000");
     expect(result.amount).toBe(80000);
   });
+
+  it("should parse expense id when present", async () => {
+    mockGenerateContent.mockResolvedValue({
+      response: {
+        text: () =>
+          JSON.stringify({
+            id: "INV-9988",
+            amount: 120000,
+            currency: "IDR",
+            description: "Internet Bill",
+            category: "Bills: Internet",
+            date: "2026-04-12",
+          }),
+      },
+    });
+
+    const { parseExpense } = await import("./gemini.js");
+    const result = await parseExpense("Internet bill INV-9988");
+    expect(result.id).toBe("INV-9988");
+    expect(result.amount).toBe(120000);
+  });
 });

@@ -25,7 +25,16 @@ export async function saveToSheet(data: ExpenseData) {
   try {
     const sheet = await getGoogleSheet();
 
+    if (data.id) {
+      const rows = await sheet.getRows();
+      const existing = rows.find((row) => row.get("ID") === data.id);
+      if (existing) {
+        return { saved: false, isDuplicate: true, existingId: data.id };
+      }
+    }
+
     const rowData = {
+      ID: data.id || "",
       Date: data.date,
       Description: data.description,
       Category: data.category,
@@ -41,6 +50,7 @@ export async function saveToSheet(data: ExpenseData) {
       if (message.includes("No values in the header row")) {
         console.log("Empty sheet detected. Initializing headers...");
         await sheet.setHeaderRow([
+          "ID",
           "Date",
           "Description",
           "Category",
@@ -53,6 +63,8 @@ export async function saveToSheet(data: ExpenseData) {
         throw e;
       }
     }
+
+    return { saved: true };
   } catch (error) {
     console.error("Error saving to Google Sheets:", error);
     throw error;
@@ -72,6 +84,7 @@ export async function getDailyExpenses(date: string) {
 
       try {
         const data = ExpenseSchema.parse({
+          id: obj.ID || undefined,
           amount: Number(obj.Amount),
           currency: obj.Currency,
           description: obj.Description,

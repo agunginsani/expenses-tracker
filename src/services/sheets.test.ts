@@ -68,6 +68,7 @@ describe("Sheets Service", () => {
 
     expect(mockLoadInfo).toHaveBeenCalled();
     expect(mockAddRow).toHaveBeenCalledWith({
+      ID: "",
       Date: data.date,
       Description: data.description,
       Category: data.category,
@@ -75,6 +76,51 @@ describe("Sheets Service", () => {
       Currency: data.currency,
       "Created at": "2026-06-07 21:30:05",
     });
+  });
+
+  it("should save expense with explicit ID and detect duplicates", async () => {
+    const { saveToSheet } = await import("./sheets.js");
+
+    const expenseWithId = {
+      id: "INV-1001",
+      amount: 150000,
+      currency: "IDR",
+      description: "Electricity bill",
+      category: "Bills: Electricity",
+      date: "2026-04-10",
+    } as const;
+
+    mockGetRows.mockResolvedValueOnce([] as never[]);
+    const res1 = await saveToSheet(expenseWithId);
+
+    expect(res1).toEqual({ saved: true });
+    expect(mockAddRow).toHaveBeenCalledWith({
+      ID: "INV-1001",
+      Date: expenseWithId.date,
+      Description: expenseWithId.description,
+      Category: expenseWithId.category,
+      Amount: expenseWithId.amount,
+      Currency: expenseWithId.currency,
+      "Created at": "2026-06-07 21:30:05",
+    });
+
+    // Reset mock add row call count
+    mockAddRow.mockClear();
+
+    // Mock existing row with same ID
+    mockGetRows.mockResolvedValueOnce([
+      {
+        get: (col: string) => (col === "ID" ? "INV-1001" : undefined),
+      },
+    ] as unknown as never[]);
+
+    const res2 = await saveToSheet(expenseWithId);
+    expect(res2).toEqual({
+      saved: false,
+      isDuplicate: true,
+      existingId: "INV-1001",
+    });
+    expect(mockAddRow).not.toHaveBeenCalled();
   });
 
   it("should getDailyExpenses and aggregate correctly", async () => {
@@ -166,6 +212,7 @@ describe("Sheets Service", () => {
 
     expect(mockLoadInfo).toHaveBeenCalled();
     expect(mockAddRow).toHaveBeenCalledWith({
+      ID: "",
       Date: data.date,
       Description: data.description,
       Category: data.category,
