@@ -14,7 +14,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.11",
     "@types/bun": "^1.3.12",
-    "@vercel/node": "^5.7.4",
+    "@vercel/node": "^9.0.1",
     "husky": "^9.1.7",
     "typescript": "^6.0.3"
   },
