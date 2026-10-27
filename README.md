@@ -81,10 +81,12 @@ Production deployments are release-driven: publishing a GitHub Release starts th
    - `VERCEL_ORG_ID`
    - `VERCEL_PROJECT_ID`
    - `VERCEL_TOKEN`
+   - `CODECOV_TOKEN`
 
-   See GitHub's guide to [creating Actions secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions). The Vercel IDs and token are separate from the application's runtime variables.
-4. [Publish a GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases). If its tests, type-check, and Biome checks pass, the workflow deploys the production app to Vercel.
-5. Register the Telegram webhook for the deployed app using its base URL:
+   See GitHub's guide to [creating Actions secrets](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions). The Vercel deployment credentials and Codecov token are separate from the application's runtime variables.
+4. In **Settings → Secrets and variables → Actions → Variables**, add `VERCEL_PRODUCTION_URL` with the production base URL (for example, `https://your-project.vercel.app`). This is a public URL, not a secret.
+5. [Publish a GitHub Release](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases). The workflow runs the shared verification command, deploys to Vercel Production, then checks `VERCEL_PRODUCTION_URL/api/health`. A failed health check fails the workflow; rollback is manual.
+6. Register the Telegram webhook for the deployed app using its base URL:
 
    ```bash
    bun run set-webhook https://your-project.vercel.app
@@ -95,19 +97,22 @@ Production deployments are release-driven: publishing a GitHub Release starts th
 ## Development
 
 ```bash
+bun run verify
 bun run lint
 bun run format
 bun run test
-bun x tsc --noEmit
+bun run typecheck
 ```
 
+- `bun run verify` runs tests with coverage, TypeScript type-checking, and non-mutating Biome checks.
 - `bun run lint` runs Biome linting.
 - `bun run format` formats files and writes the changes.
 - `bun run test` runs the tests with coverage and writes an LCOV report.
-- `bun x tsc --noEmit` type-checks without emitting files.
+- `bun run typecheck` type-checks source and Vercel API files without emitting files.
+- `bun run check:ci` runs non-mutating Biome checks.
 - `bun run check` runs Biome checks with `--write`, so it may modify files.
 
-GitHub Actions also runs Biome, TypeScript, and tests on pushes and pull requests targeting `main`.
+GitHub Actions runs the shared verification on pushes and pull requests targeting `main`. Pull requests also run dependency review (blocking newly introduced high/critical vulnerabilities) and Gitleaks secret scanning. The `main` branch requires the `verify`, `dependency-review`, and `secret-scan` checks. Codecov upload remains required, with the existing 1% project and patch thresholds.
 
 ## License
 

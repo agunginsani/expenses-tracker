@@ -5,6 +5,8 @@ env:
 on:
   release:
     types: [published]
+permissions:
+  contents: read
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,13 +14,29 @@ jobs:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
       - name: Install dependencies
-        run: bun install
-      - name: Run verification
-        run: |
-          bun test
-          bun x tsc --noEmit
-          bun x biome check .
+        run: bun install --frozen-lockfile
+      - name: Verify
+        run: bun run verify
       - name: Install Vercel CLI
         run: bun add -g vercel
       - name: Deploy to Vercel Production
         run: vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Check production health
+        env:
+          VERCEL_PRODUCTION_URL: ${{ vars.VERCEL_PRODUCTION_URL }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$VERCEL_PRODUCTION_URL" ]]; then
+            echo "::error::Set the VERCEL_PRODUCTION_URL Actions variable to the production base URL."
+            exit 1
+          fi
+          if [[ "$VERCEL_PRODUCTION_URL" != https://* ]]; then
+            echo "::error::VERCEL_PRODUCTION_URL must use HTTPS."
+            exit 1
+          fi
+          health_url="${VERCEL_PRODUCTION_URL%/}/api/health"
+          response="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 --retry-max-time 30 --connect-timeout 5 --max-time 15 "$health_url")"
+          if ! jq --exit-status '.status == "ok"' <<< "$response" >/dev/null; then
+            echo "::error::Production health check returned an unexpected response."
+            exit 1
+          fi

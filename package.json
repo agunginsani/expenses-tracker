@@ -9,6 +9,9 @@
     "lint": "biome lint .",
     "format": "biome format . --write",
     "check": "biome check --write .",
+    "check:ci": "biome check .",
+    "typecheck": "tsc --noEmit",
+    "verify": "bun run test && bun run typecheck && bun run check:ci",
     "set-webhook": "bun scripts/set-webhook.ts"
   },
   "devDependencies": {

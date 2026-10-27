@@ -1,0 +1,116 @@
+metadata:
+  generated: "2026-10-26"
+  source_spec: "https://github.com/agunginsani/expenses-tracker/issues/42"
+  target_plan: ".github/modernize/ci-cd-improvements/plan.md"
+
+summary:
+  total_requirements: 9
+  covered_requirements: 9
+  missing_requirements: 0
+  coverage_percentage: 100.0
+
+requirements:
+  - req_id: "REQ-001"
+    req_description: "Shared non-mutating verification"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-1"
+      phase_name: "Shared verification"
+      items:
+        - item_id: "1.1"
+          description: "Add one non-mutating verification command"
+        - item_id: "1.2"
+          description: "Use the command in CI and release validation"
+    notes: "The TypeScript check includes both src/ and api/."
+  - req_id: "REQ-002"
+    req_description: "Required Codecov upload and current thresholds"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-1"
+      phase_name: "Shared verification"
+      items:
+        - item_id: "1.1"
+          description: "Generate LCOV from the shared verification command"
+        - item_id: "1.2"
+          description: "Keep Codecov upload and its existing thresholds"
+    notes: ""
+  - req_id: "REQ-003"
+    req_description: "Block newly introduced high/critical dependency vulnerabilities"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-2"
+      phase_name: "PR security gates"
+      items:
+        - item_id: "2.1"
+          description: "Add PR dependency review and retain Dependabot"
+    notes: ""
+  - req_id: "REQ-004"
+    req_description: "Block detected secrets on PRs"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-2"
+      phase_name: "PR security gates"
+      items:
+        - item_id: "2.1"
+          description: "Add PR secret scanning"
+    notes: ""
+  - req_id: "REQ-005"
+    req_description: "Require selected checks on main"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-2"
+      phase_name: "Merge enforcement"
+      items:
+        - item_id: "3.1"
+          description: "Configure required verification and security checks"
+    notes: ""
+  - req_id: "REQ-006"
+    req_description: "Side-effect-free health endpoint and isolated test"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-3"
+      phase_name: "Health endpoint"
+      items:
+        - item_id: "4.1"
+          description: "Add and test the isolated health endpoint"
+    notes: ""
+  - req_id: "REQ-007"
+    req_description: "Post-deploy health check fails when production is unhealthy"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-3"
+      phase_name: "Release health check"
+      items:
+        - item_id: "5.1"
+          description: "Probe the configured production health URL after deploy"
+    notes: ""
+  - req_id: "REQ-008"
+    req_description: "Keep direct release-triggered production deployment"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-1 + Phase-3"
+      phase_name: "Shared verification and release health check"
+      items:
+        - item_id: "1.2"
+          description: "Keep release-triggered deploy flow"
+        - item_id: "5.1"
+          description: "Preserve direct production deployment and verify health after deploy"
+    notes: ""
+  - req_id: "REQ-009"
+    req_description: "Measure and safely improve CI feedback speed"
+    priority: "P2"
+    plan_mapping:
+      phase: "Phase-4"
+      phase_name: "Feedback speed"
+      items:
+        - item_id: "7.1"
+          description: "Compare durations and keep only beneficial optimizations"
+    notes: "Recent baseline is approximately 8–18 seconds."
+
+missing_requirements: []
+orphan_plan_items: []
+
+validation:
+  passed: true
+  errors: []
+  warnings: []

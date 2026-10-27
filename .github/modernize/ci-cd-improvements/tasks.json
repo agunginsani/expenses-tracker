@@ -1,0 +1,176 @@
+{
+  "feature": "CI/CD Verification and Release Safety",
+  "spec": "https://github.com/agunginsani/expenses-tracker/issues/42",
+  "tasks": [
+    {
+      "id": "T001",
+      "title": "Add shared verification scripts",
+      "status": "completed",
+      "plan": ["1.1"],
+      "requirements": ["REQ-001", "REQ-002"],
+      "blockedBy": [],
+      "acceptanceCriteria": [
+        "A non-mutating Biome check and TypeScript check are available through package scripts.",
+        "TypeScript checking includes the Vercel API routes.",
+        "A single verify script runs tests with LCOV coverage, type-checking, and Biome checks.",
+        "Generated coverage output is ignored by Git.",
+        "Existing Codecov thresholds are not changed."
+      ],
+      "files": [".gitignore", "package.json", "tsconfig.json"]
+    },
+    {
+      "id": "T002",
+      "title": "Use shared verification in CI and deployment",
+      "status": "completed",
+      "plan": ["1.1", "1.2"],
+      "requirements": ["REQ-001", "REQ-002", "REQ-008"],
+      "blockedBy": ["T001"],
+      "acceptanceCriteria": [
+        "PR CI and release deployment invoke the same verification command.",
+        "Both workflows use frozen dependency installation.",
+        "Codecov upload remains required and the 1% project and patch thresholds remain."
+      ],
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/deploy.yml",
+        "codecov.yml"
+      ]
+    },
+    {
+      "id": "T003",
+      "title": "Add PR dependency and secret scans",
+      "status": "completed",
+      "plan": ["2.1"],
+      "requirements": ["REQ-003", "REQ-004"],
+      "blockedBy": [],
+      "acceptanceCriteria": [
+        "PR dependency review fails for newly introduced high or critical vulnerabilities in runtime, development, and unknown dependency scopes.",
+        "PR secret scanning fails when a secret is detected.",
+        "Existing daily Dependabot updates remain enabled."
+      ],
+      "files": [".github/workflows/security.yml", ".github/dependabot.yml"]
+    },
+    {
+      "id": "T004",
+      "title": "Require validation and security checks on main",
+      "status": "completed",
+      "plan": ["3.1"],
+      "requirements": ["REQ-005"],
+      "blockedBy": ["T002", "T003"],
+      "acceptanceCriteria": [
+        "Main branch protection requires the verification, dependency-review, and secret-scan checks.",
+        "The configured required-check names exactly match the GitHub Actions check names.",
+        "The rule is verified through the GitHub API."
+      ],
+      "files": [
+        "GitHub repository branch protection for main (configured through the GitHub API)"
+      ]
+    },
+    {
+      "id": "T005",
+      "title": "Add isolated health endpoint and tests",
+      "status": "completed",
+      "plan": ["4.1"],
+      "requirements": ["REQ-006"],
+      "blockedBy": [],
+      "acceptanceCriteria": [
+        "GET health response succeeds without initializing Telegram, Gemini, or Google Sheets integrations.",
+        "Unsupported methods are rejected.",
+        "Bun tests cover success and unsupported methods without live credentials or API calls."
+      ],
+      "files": ["api/health.ts", "api/health.test.ts"]
+    },
+    {
+      "id": "T006",
+      "title": "Probe health after production deployment",
+      "status": "completed",
+      "plan": ["5.1"],
+      "requirements": ["REQ-007", "REQ-008"],
+      "blockedBy": ["T002", "T005"],
+      "acceptanceCriteria": [
+        "The release workflow still deploys production only when a GitHub Release is published.",
+        "After deployment, the workflow requests VERCEL_PRODUCTION_URL/api/health.",
+        "A missing URL or unhealthy response fails the workflow.",
+        "No automatic rollback or preview deployment is added."
+      ],
+      "files": [".github/workflows/deploy.yml"]
+    },
+    {
+      "id": "T007",
+      "title": "Document verification and deployment configuration",
+      "status": "completed",
+      "plan": ["6.1"],
+      "requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003",
+        "REQ-004",
+        "REQ-005",
+        "REQ-007",
+        "REQ-008"
+      ],
+      "blockedBy": ["T004", "T006"],
+      "acceptanceCriteria": [
+        "README explains local verification and required PR checks.",
+        "README documents VERCEL_PRODUCTION_URL as a public Actions variable and the post-deploy probe.",
+        "README preserves the existing release deployment and secret guidance."
+      ],
+      "files": ["README.md"]
+    },
+    {
+      "id": "T008",
+      "title": "Measure and optimize CI feedback safely",
+      "status": "in_progress",
+      "plan": ["7.1"],
+      "requirements": ["REQ-009"],
+      "blockedBy": ["T002"],
+      "acceptanceCriteria": [
+        "Post-change Actions duration is compared with the observed 8–18-second baseline.",
+        "Only measured-beneficial caching or superseded-run cancellation is retained.",
+        "No hard runtime SLA is introduced."
+      ],
+      "files": [".github/workflows/ci.yml"]
+    },
+    {
+      "id": "T009",
+      "title": "Validate the complete CI/CD contract",
+      "status": "blocked",
+      "plan": ["8.1"],
+      "requirements": [
+        "REQ-001",
+        "REQ-002",
+        "REQ-003",
+        "REQ-004",
+        "REQ-005",
+        "REQ-006",
+        "REQ-007",
+        "REQ-008",
+        "REQ-009"
+      ],
+      "blockedBy": [
+        "T001",
+        "T002",
+        "T003",
+        "T004",
+        "T005",
+        "T006",
+        "T007",
+        "T008"
+      ],
+      "acceptanceCriteria": [
+        "Bun tests, TypeScript, and Biome checks pass.",
+        "Workflow syntax and required check names are validated.",
+        "Branch protection and release health-check ordering/failure behavior are verified.",
+        "Any remaining maintainer-only configuration is reported."
+      ],
+      "files": [
+        ".github/workflows/ci.yml",
+        ".github/workflows/deploy.yml",
+        ".github/workflows/security.yml",
+        "api/health.ts",
+        "api/health.test.ts",
+        "README.md"
+      ]
+    }
+  ]
+}
