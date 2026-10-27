@@ -1,0 +1,127 @@
+metadata:
+  generated: "2026-10-26"
+  source_plan: ".github/modernize/ci-cd-improvements/plan.md"
+  target_tasks: ".github/modernize/ci-cd-improvements/tasks.json"
+
+summary:
+  total_plan_items: 9
+  covered_plan_items: 9
+  missing_plan_items: 0
+  coverage_percentage: 100.0
+  total_tasks_generated: 9
+  orphan_tasks: 0
+
+phases:
+  - phase_id: "Phase-1"
+    phase_name: "Shared verification"
+    items:
+      - item_id: "1.1"
+        description: "Add one non-mutating verification command"
+        tasks:
+          - task_id: "T001"
+            description: "Add typecheck, check, and verify package scripts"
+          - task_id: "T002"
+            description: "Use shared verification in CI and deployment"
+        notes: ""
+      - item_id: "1.2"
+        description: "Use the command in CI and release validation"
+        tasks:
+          - task_id: "T002"
+            description: "Use shared verification in CI and deployment"
+        notes: ""
+  - phase_id: "Phase-2"
+    phase_name: "PR security and merge enforcement"
+    items:
+      - item_id: "2.1"
+        description: "Scan dependency changes and secrets"
+        tasks:
+          - task_id: "T003"
+            description: "Add PR dependency and secret scans"
+        notes: ""
+      - item_id: "3.1"
+        description: "Require selected checks on main"
+        tasks:
+          - task_id: "T004"
+            description: "Require validation and security checks on main"
+        notes: ""
+  - phase_id: "Phase-3"
+    phase_name: "Production health verification"
+    items:
+      - item_id: "4.1"
+        description: "Add a side-effect-free health response"
+        tasks:
+          - task_id: "T005"
+            description: "Add isolated health endpoint and tests"
+        notes: ""
+      - item_id: "5.1"
+        description: "Verify production after deployment"
+        tasks:
+          - task_id: "T006"
+            description: "Probe health after production deployment"
+        notes: ""
+      - item_id: "6.1"
+        description: "Document the new checks and configuration"
+        tasks:
+          - task_id: "T007"
+            description: "Document verification and deployment configuration"
+        notes: ""
+  - phase_id: "Phase-4"
+    phase_name: "Feedback and final validation"
+    items:
+      - item_id: "7.1"
+        description: "Measure and apply safe workflow optimizations"
+        tasks:
+          - task_id: "T008"
+            description: "Measure and optimize CI feedback safely"
+        notes: ""
+      - item_id: "8.1"
+        description: "Validate the full CI/CD contract"
+        tasks:
+          - task_id: "T009"
+            description: "Validate the complete CI/CD contract"
+        notes: ""
+
+missing_plan_items: []
+orphan_tasks: []
+upstream_trace:
+  - plan_item: "1.1"
+    source_requirements: ["REQ-001", "REQ-002"]
+    tasks: ["T001", "T002"]
+    full_trace: "REQ-001,REQ-002 → 1.1 → T001,T002"
+  - plan_item: "1.2"
+    source_requirements: ["REQ-001", "REQ-002", "REQ-008"]
+    tasks: ["T002"]
+    full_trace: "REQ-001,REQ-002,REQ-008 → 1.2 → T002"
+  - plan_item: "2.1"
+    source_requirements: ["REQ-003", "REQ-004"]
+    tasks: ["T003"]
+    full_trace: "REQ-003,REQ-004 → 2.1 → T003"
+  - plan_item: "3.1"
+    source_requirements: ["REQ-005"]
+    tasks: ["T004"]
+    full_trace: "REQ-005 → 3.1 → T004"
+  - plan_item: "4.1"
+    source_requirements: ["REQ-006"]
+    tasks: ["T005"]
+    full_trace: "REQ-006 → 4.1 → T005"
+  - plan_item: "5.1"
+    source_requirements: ["REQ-007", "REQ-008"]
+    tasks: ["T006"]
+    full_trace: "REQ-007,REQ-008 → 5.1 → T006"
+  - plan_item: "6.1"
+    source_requirements: ["REQ-001", "REQ-002", "REQ-003", "REQ-004", "REQ-005", "REQ-007", "REQ-008"]
+    tasks: ["T007"]
+    full_trace: "REQ-001,REQ-002,REQ-003,REQ-004,REQ-005,REQ-007,REQ-008 → 6.1 → T007"
+  - plan_item: "7.1"
+    source_requirements: ["REQ-009"]
+    tasks: ["T008"]
+    full_trace: "REQ-009 → 7.1 → T008"
+  - plan_item: "8.1"
+    source_requirements: ["REQ-001", "REQ-002", "REQ-003", "REQ-004", "REQ-005", "REQ-006", "REQ-007", "REQ-008", "REQ-009"]
+    tasks: ["T009"]
+    full_trace: "REQ-001..REQ-009 → 8.1 → T009"
+
+validation:
+  passed: true
+  errors: []
+  warnings: []

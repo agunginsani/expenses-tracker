@@ -6,8 +6,16 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
 jobs:
   verify:
+    name: verify
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -19,14 +27,8 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
-      - name: Lint & Format
-        run: bun x biome check .
-
-      - name: Type Check
-        run: bun x tsc --noEmit
-
-      - name: Run Tests
-        run: bun run test
+      - name: Verify
+        run: bun run verify
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v5

@@ -1,0 +1,107 @@
+metadata:
+  generated: "2026-10-27"
+  source_tasks: ".github/modernize/ci-cd-improvements/tasks.json"
+  source_plan: ".github/modernize/ci-cd-improvements/plan.md"
+  specification: "https://github.com/agunginsani/expenses-tracker/issues/42"
+
+summary:
+  total_tasks: 9
+  completed_tasks: 7
+  in_progress_tasks: 1
+  blocked_tasks: 1
+  implementation_complete: false
+
+tasks:
+  - task_id: "T001"
+    status: "completed"
+    files_changed:
+      - ".gitignore"
+      - "package.json"
+      - "tsconfig.json"
+    evidence:
+      - "Added shared verify, typecheck, and non-mutating check:ci scripts."
+      - "TypeScript includes Vercel API routes; generated coverage is ignored."
+  - task_id: "T002"
+    status: "completed"
+    files_changed:
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/deploy.yml"
+    evidence:
+      - "Both workflows use frozen dependency installation and bun run verify."
+      - "Codecov upload and existing thresholds are preserved."
+  - task_id: "T003"
+    status: "completed"
+    files_changed:
+      - ".github/workflows/security.yml"
+    evidence:
+      - "Added PR dependency review for high/critical findings and Gitleaks secret scanning."
+      - "Workflow permissions are read-only and PR comments are disabled."
+  - task_id: "T004"
+    status: "completed"
+    files_changed:
+      - "GitHub repository branch protection for main"
+    evidence:
+      - "GitHub API read-back confirmed required checks: verify, dependency-review, secret-scan."
+  - task_id: "T005"
+    status: "completed"
+    files_changed:
+      - "api/health.ts"
+      - "api/health.test.ts"
+    evidence:
+      - "GET returns { status: ok }; unsupported methods return 405."
+      - "Endpoint has no application integration imports; both Bun tests pass."
+  - task_id: "T006"
+    status: "completed"
+    files_changed:
+      - ".github/workflows/deploy.yml"
+    evidence:
+      - "The release workflow checks the production health endpoint after deployment."
+      - "Missing or non-HTTPS VERCEL_PRODUCTION_URL and unhealthy responses fail the workflow."
+  - task_id: "T007"
+    status: "completed"
+    files_changed:
+      - "README.md"
+    evidence:
+      - "Documented verification, required checks, deployment health probe, and public URL configuration."
+  - task_id: "T008"
+    status: "in_progress"
+    files_changed:
+      - ".github/workflows/ci.yml"
+    evidence:
+      - "Added cancellation for superseded pull-request CI runs; did not add unmeasured caching."
+    remaining:
+      - "Measure post-change GitHub Actions duration against the 8–18-second baseline after changes are pushed."
+  - task_id: "T009"
+    status: "blocked"
+    files_changed:
+      - ".github/workflows/ci.yml"
+      - ".github/workflows/deploy.yml"
+      - ".github/workflows/security.yml"
+      - "api/health.ts"
+      - "api/health.test.ts"
+      - "README.md"
+    evidence:
+      - "Local verification passed: 39 tests, TypeScript, and Biome."
+      - "Workflow YAML, deployment shell syntax, diff whitespace, and required check names were validated."
+    blocked_reason:
+      - "Remote workflow execution requires publishing the uncommitted changes; no commit or push was requested."
+      - "VERCEL_PRODUCTION_URL is not configured, so the production health probe cannot run until a maintainer adds the Actions variable."
+
+traceability:
+  REQ-001: ["T001", "T002", "T007", "T009"]
+  REQ-002: ["T001", "T002", "T007", "T009"]
+  REQ-003: ["T003", "T007", "T009"]
+  REQ-004: ["T003", "T007", "T009"]
+  REQ-005: ["T004", "T007", "T009"]
+  REQ-006: ["T005", "T009"]
+  REQ-007: ["T006", "T007", "T009"]
+  REQ-008: ["T002", "T006", "T007", "T009"]
+  REQ-009: ["T008", "T009"]
+
+validation:
+  local_verify: "passed"
+  workflow_yaml: "passed"
+  deploy_script_syntax: "passed"
+  branch_protection_readback: "passed"
+  remote_actions_timing: "pending"
+  production_health_probe: "pending maintainer configuration and release"
